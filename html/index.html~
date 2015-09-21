@@ -135,9 +135,9 @@
               <div class="panel-body">
                 <div class="text-left pull-left">
                   <label class="small text-left">Nº vértices:</label>
-                  <input type="number" class="campo-preenchimento" id="vertices" min="3"/>
+                  <input type="number" class="campo-preenchimento" id="vertices"/>
                   <label class="small text-left">Nº faces:</label>
-                  <input type="number" class="campo-preenchimento" id="faces" min="1"/>
+                  <input type="number" class="campo-preenchimento" id="faces"/>
                   <button class="btn btn-primary btn-xs pull-left margem-btn" onclick="geraVerticesEFaces()">Especificar</button>
                 </div>
               </div>

@@ -67,7 +67,6 @@ function valida(){
 var v = parseInt(document.getElementById("vertices").value);
 if(v < 3){
 	alert('Número de vertices deve ser maior que 3');
-	return false;
 }
 return true;
 }

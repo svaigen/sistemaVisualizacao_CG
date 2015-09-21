@@ -1,14 +1,10 @@
 function geraVerticesEFaces(){
-	if(valida()){
-		var vertices = parseInt(document.getElementById("vertices").value);
-		var faces = parseInt(document.getElementById("faces").value);
-		geraCamposVertices("table-vertices",vertices);
-		geraCamposFaces("table-faces",faces,vertices);
-		document.getElementById("desc-vertices").className -="hide";
-		document.getElementById("desc-faces").className -="hide";
-	}else{
-		alert('Preencha os vértices e as faces para especificar!');
-	}
+  var vertices = parseInt(document.getElementById("vertices").value);
+  var faces = parseInt(document.getElementById("faces").value);
+  geraCamposVertices("table-vertices",vertices);
+  geraCamposFaces("table-faces",faces,vertices);
+  document.getElementById("desc-vertices").className -="hide";
+  document.getElementById("desc-faces").className -="hide";
 }
 
 function geraCamposVertices(tabela,n){
@@ -52,22 +48,7 @@ function geraCamposFaces(tabela,n_faces,n_vertices){
     cel.innerHTML = "F"+i;
     cel = novaLinha.insertCell(1);
     for(var j = 1; j <= n_vertices; j++){
-      cel.innerHTML += "<input type=\"checkbox\" name=\"f"+i+"\" value=\"\" id=\"f"+i+"-v"+j+"\">V"+j+" ";
+      cel.innerHTML += "<input type=\"checkbox\" value=\"\" id=\"f"+i+"-v"+j+"\">V"+j+" ";
     }
   }
-}
-
-function valida(){
-	if(document.getElementById('vertices').value == ''){
-		return false;
-	}
-	if(document.getElementById('faces').value == ''){
-		return false;
-	}
-var v = parseInt(document.getElementById("vertices").value);
-if(v < 3){
-	alert('Número de vertices deve ser maior que 3');
-	return false;
-}
-return true;
 }
