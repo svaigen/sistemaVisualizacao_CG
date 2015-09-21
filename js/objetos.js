@@ -36,7 +36,7 @@ function geraCamposVertices(tabela,n){
 
 function geraCamposFaces(tabela,n_faces,n_vertices){
   var table = document.getElementById(tabela);
-  var numLinhas = table.rows.length;
+  var numLinhas = table.rows.length; 
   //laço para remover linhas antigas, caso existam
   for(var i = numLinhas; i > 1; i--){
     table.deleteRow(i-1);
