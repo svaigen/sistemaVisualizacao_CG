@@ -9,10 +9,11 @@
   min-height: 400px;
 }
 
-.plano-proj{
+.campo-preenchimento{
   max-width: 40px;
 }
 
-.obj-especificar{
+.margem-btn{
   margin-top: 10px;
+  margin-bottom: 10px;
 }

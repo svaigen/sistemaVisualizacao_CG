@@ -48,27 +48,27 @@
             </tr>
             <tr>
               <th></th>
-              <th class=" text-center">x</th>
-              <th class=" text-center">y</th>
-              <th class=" text-center">z</th>
+              <th class="text-center">x</th>
+              <th class="text-center">y</th>
+              <th class="text-center">z</th>
             </tr>
             <tr>
               <td>P1</td>
-              <td><input type="number" class="plano-proj" value="0"/></td>
-              <td><input type="number" class="plano-proj" value="0"/></td>
-              <td><input type="number" class="plano-proj" value="0"/></td>
+              <td><input type="number" class="campo-preenchimento" id="pp-p1-x" value=""/></td>
+              <td><input type="number" class="campo-preenchimento" id="pp-p1-y" value=""/></td>
+              <td><input type="number" class="campo-preenchimento" id="pp-p1-z" value=""/></td>
             </tr>
             <tr>
               <td>P2</td>
-              <td><input type="number" class="plano-proj" value="0"/></td>
-              <td><input type="number" class="plano-proj" value="0"/></td>
-              <td><input type="number" class="plano-proj" value="0"/></td>
+              <td><input type="number" class="campo-preenchimento" id="pp-p2-x" value=""/></td>
+              <td><input type="number" class="campo-preenchimento" id="pp-p2-y" value=""/></td>
+              <td><input type="number" class="campo-preenchimento" id="pp-p2-z" value=""/></td>
             </tr>
             <tr>
               <td>P3</td>
-              <td><input type="number" class="plano-proj" value="0"/></td>
-              <td><input type="number" class="plano-proj" value="0"/></td>
-              <td><input type="number" class="plano-proj" value="0"/></td>
+              <td><input type="number" class="campo-preenchimento" id="pp-p3-x" value=""/></td>
+              <td><input type="number" class="campo-preenchimento" id="pp-p3-y" value=""/></td>
+              <td><input type="number" class="campo-preenchimento" id="pp-p3-z" value=""/></td>
             </tr>
           </table>
           <table class="table small table-responsive table-striped table-condensed">
@@ -81,9 +81,9 @@
               <th class=" text-center">z</th>
             </tr>
             <tr>
-              <td><input type="number" class="plano-proj" value="0"/></td>
-              <td><input type="number" class="plano-proj" value="0"/></td>
-              <td><input type="number" class="plano-proj" value="0"/></td>
+              <td><input type="number" class="campo-preenchimento" id="pv-x" value=""/></td>
+              <td><input type="number" class="campo-preenchimento" id="pv-y" value=""/></td>
+              <td><input type="number" class="campo-preenchimento" id="pv-z" value=""/></td>
             </tr>
           </table>
 
@@ -93,9 +93,9 @@
           </div>
           <div class="text-center">
             <h4>Definições da projeção</h4>
-            <label class="radio-inline"><input type="radio" name="opt-proj">Cônica</label>
-            <label class="radio-inline"><input type="radio" name="opt-proj">Cilíndrica</label><br/>
-            <label class="checkbox-inline"><input type="checkbox" value="">Mostrar faces ocultas</label>
+            <label class="radio-inline"><input type="radio" name="opt-proj" class="tipo-proj">Cônica</label>
+            <label class="radio-inline"><input type="radio" name="opt-proj" class="tipo-proj">Cilíndrica</label><br/>
+            <label class="checkbox-inline"><input type="checkbox" value="" class="faces-ocultas">Mostrar faces ocultas</label>
           </div>
         </div>
         <div class="col-sm-3 text-center">
@@ -111,10 +111,34 @@
           <p class="small">Ou então, especifique um novo:</p>
           <div class="text-left pull-left">
             <label class="small text-left">Nº vértices:</label>
-            <input type="number" class="plano-proj" id="vertices"/>
+            <input type="number" class="campo-preenchimento" id="vertices"/>
             <label class="small text-left">Nº faces:</label>
-            <input type="number" class="plano-proj" id="faces"/>
-            <button class="btn btn-primary btn-xs pull-left obj-especificar">Especificar</button>
+            <input type="number" class="campo-preenchimento" id="faces"/>
+            <button class="btn btn-primary btn-xs pull-left margem-btn" onclick="geraVerticesEFaces()">Especificar</button>
+          </div>
+          <div id="desc-vertices" class="hide">
+            <table class="table small table-responsive table-striped table-condensed" id="table-vertices">
+              <tr>
+                <th colspan="4">Vertices</th>
+              </tr>
+              <tr>
+                <th></th>
+                <th class="text-center">x</th>
+                <th class="text-center">y</th>
+                <th class="text-center">z</th>
+              </tr>
+            </table>
+          </div>
+          <div id="desc-faces" class="hide">
+            <table class="table small table-responsive table-striped table-condensed" id="table-faces">
+              <tr>
+                <th colspan="2">Faces</th>
+              </tr>
+              <tr>
+                <th></th>
+                <th class="text-center">Escolha os vértices</th>
+              </tr>
+            </table>
           </div>
         </div>
       </div>
@@ -123,6 +147,7 @@
     <footer>
       <script src="../js/jquery.min.js"></script>
       <script src="../js/bootstrap.min.js"></script>
+      <script src="../js/objetos.js"></script>
     </footer>
   </body>
 </html>
