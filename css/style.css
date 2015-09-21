@@ -1,4 +1,18 @@
 .imgThumb{
-    max-height: 50px;
-    margin-right: 50px;
+  max-height: 50px;
+  margin-right: 50px;
+}
+
+.viewport{
+  background-color: #000;
+  min-width: 500px;
+  min-height: 400px;
+}
+
+.plano-proj{
+  max-width: 40px;
+}
+
+.obj-especificar{
+  margin-top: 10px;
 }
