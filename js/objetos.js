@@ -37,19 +37,17 @@ function geraCamposVertices(tabela,n){
 function geraCamposFaces(tabela,n_faces,n_vertices){
   var table = document.getElementById(tabela);
   var numLinhas = table.rows.length;
-
   //laço para remover linhas antigas, caso existam
-  for(var i = numLinhas-1; i >= 2; i--){
-    table.deleteRow(i);
+  for(var i = numLinhas; i > 1; i--){
+    table.deleteRow(i-1);
   }
-
   //preenchendo a tabela com n faces
   for(var i = 1; i <= n_faces; i++){
-    var novaLinha = table.insertRow(i+1);
+    var novaLinha = table.insertRow(i);
     var cel = novaLinha.insertCell(0);
     cel.innerHTML = "F"+i;
     cel = novaLinha.insertCell(1);
-    for(var j = 1; j<=n_vertices; j++){
+    for(var j = 1; j <= n_vertices; j++){
       cel.innerHTML += "<input type=\"checkbox\" value=\"\" id=\"f"+i+"-v"+j+"\">V"+j+" ";
     }
   }
