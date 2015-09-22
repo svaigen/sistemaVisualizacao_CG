@@ -93,9 +93,9 @@
           </div>
           <div class="text-center">
             <h4>Definições da projeção</h4>
-            <label class="radio-inline"><input type="radio" name="opt-proj" class="tipo-proj">Cônica</label>
-            <label class="radio-inline"><input type="radio" name="opt-proj" class="tipo-proj">Cilíndrica</label><br/>
-            <label class="checkbox-inline"><input type="checkbox" value="" class="faces-ocultas">Mostrar faces ocultas</label>
+            <label class="radio-inline"><input type="radio" name="opt-proj" class="tipo-proj" value="1">Cônica</label>
+            <label class="radio-inline"><input type="radio" name="opt-proj" class="tipo-proj" value="2">Cilíndrica</label><br/>
+            <label class="checkbox-inline"><input type="checkbox" value="" id="faces-ocultas">Mostrar faces ocultas</label>
 					</br>
 						<button class="btn btn-primary btn-xs pull-center margem-btn" onclick="calcular()">Desenhar</button>
           </div>
@@ -172,7 +172,8 @@
       <script src="../js/jquery.min.js"></script>
       <script src="../js/bootstrap.min.js"></script>
       <script src="../js/objetos.js"></script>
-			<script src="../js/projecao.js"></script>
+      <script src="../js/projecao.js"></script>
+      <!--script src="../js/validacao.js"></script-->
     </footer>
   </body>
 </html>
