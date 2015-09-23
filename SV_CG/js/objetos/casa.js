@@ -24,13 +24,13 @@ function setViewPointHouse(){
 }
 
 function setSurfaceVerticesHouse(){
-    document.getElementById("faces0").value = "4-3-5-9-6";
-    document.getElementById("faces1").value = "3-2-7-5";
-    document.getElementById("faces2").value = "8-10-7-2-1";
-    document.getElementById("faces3").value = "6-8-1-4-6";
-    document.getElementById("faces4").value = "4-1-2-3";
-    document.getElementById("faces5").value = "9-10-8-6";
-    document.getElementById("faces6").value = "5-7-10-9-5";
+    document.getElementById("faces0").value = "4 3 5 9 6";
+    document.getElementById("faces1").value = "3 2 7 5";
+    document.getElementById("faces2").value = "8 10 7 2 1";
+    document.getElementById("faces3").value = "6 8 1 4 6";
+    document.getElementById("faces4").value = "4 1 2 3";
+    document.getElementById("faces5").value = "9 10 8 6";
+    document.getElementById("faces6").value = "5 7 10 9 5";
 }
 
 function setProjectionPlaneCoordHouse(){

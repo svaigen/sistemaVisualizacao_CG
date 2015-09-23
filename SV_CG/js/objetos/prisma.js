@@ -30,11 +30,11 @@ function setViewPointPrism(){
 }
 
 function setSurfaceVerticesPrism(){
-    document.getElementById("faces0").value = "1-2-6";
-    document.getElementById("faces1").value = "2-3-5-6";
-    document.getElementById("faces2").value = "3-4-5";
-    document.getElementById("faces3").value = "1-6-5-4";
-    document.getElementById("faces4").value = "1-4-3-2";
+    document.getElementById("faces0").value = "1 2 6";
+    document.getElementById("faces1").value = "2 3 5 6";
+    document.getElementById("faces2").value = "3 4 5";
+    document.getElementById("faces3").value = "1 6 5 4";
+    document.getElementById("faces4").value = "1 4 3 2";
 }
 
 function setProjectionPlaneCoordPrism(){

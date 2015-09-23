@@ -101,7 +101,7 @@ function getFormSurfaceVertices(form){
     projecao.faces = [];
     var n_faces = projecao.numeroFaces;
     for (var i = 0; i < n_faces; i++){
-        var s = form.elements["nsobject" + i].value.split("-");
+        var s = form.elements["nsobject" + i].value.split(" ");
         var surface = [];
         for (var j = 0; j < s.length; j++){
             var vt = parseInt(s[j]);
