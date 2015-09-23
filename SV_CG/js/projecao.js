@@ -62,9 +62,9 @@ function Projecao(){
 
 
         var matrizCilindrica = [
-          [  (d - a * normal[0]), (-a * normal[1]), (-a * normal[2]), (a * d0)],
-          [ (-b * normal[0]), (d - b * normal[1]), (-b * normal[2]), (b * d0)],
-          [ (-c * normal[0]), (-c * normal[1]), (d - c * normal[2]), (c * d0)],
+          [ (d1 + a * normal[0]), (-a * normal[1]), (-a * normal[2]), (a * d0)],
+          [ (-b * normal[0]), (d1 - b * normal[1]), (-b * normal[2]), (b * d0)],
+          [ (-c * normal[0]), (-c * normal[1]), (d1 - c * normal[2]), (c * d0)],
           [ (0), (0), (0), (d1)]
         ];
 
