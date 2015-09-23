@@ -114,10 +114,11 @@
               </div>
               <div id="collapseOne" class="panel-collapse collapse collapsing" role="tabpanel" aria-labelledby="headingOne">
                 <div class="panel-body">
-                  <select class="small form-control" id="objeto">
-                    <option select="selected">Objeto 1</option>
-                    <option select="selected">Objeto 2</option>
-                    <option select="selected">Objeto 3</option>
+                  <select class="small form-control" id="objetos" onchange="setObjeto()">
+                    <option value="0">Selecione</option>
+                    <option value="1">Cubo</option>
+                    <option value="2">Objeto 2</option>
+                    <option value="3">Objeto 3</option>
                   </select>
                 </div>
               </div>
@@ -173,6 +174,7 @@
       <script src="../js/bootstrap.min.js"></script>
       <script src="../js/objetos.js"></script>
       <script src="../js/projecao.js"></script>
+      <script src="../js/objetos/cubo.js"></script>
       <!--script src="../js/validacao.js"></script-->
     </footer>
   </body>

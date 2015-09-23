@@ -246,3 +246,11 @@ function calculaCoordenadasNaProjecao(matriz,vertice){
   }
   return coordenadasPlano;
 }
+
+function setObjeto(){
+	var obj = document.getElementById("objetos").value;
+
+	if(obj == 1){
+		cubo();
+	}
+}
