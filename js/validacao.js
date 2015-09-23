@@ -1,9 +1,9 @@
 function calcular(){
-	//if(validar()){
+	if(validar()){
 		projeta();
-	/*}else{
+	}else{
 		alert('Preencha todos os campos!');
-	}*/
+	}
 }
 
 function validar(){

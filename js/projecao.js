@@ -1,92 +1,17 @@
-function calcular(){
-	//if(validar()){
-		projeta();
-	/*}else{
-		alert('Preencha todos os campos!');
-	}*/
-}
-
-function validar(){
-//valida primeiro ponto
-	if (!validaPonto(1)){
-		return false;
-	}
-//valida segundo ponto
-	if (!validaPonto(2)){
-		return false;
-	}
-//valida terceiro ponto
-	if (!validaPonto(3)){
-		return false;
-	}
-//valida ponto de vista
-	if(document.getElementById('pv-x').value == ''){
-		return false;
-	}
-	if(document.getElementById('pv-y').value == ''){
-		return false;
-	}
-	if(document.getElementById('pv-z').value == ''){
-		return false;
-	}
-//valida definições da projeção
-	var proj = document.getElementsByName("opt-proj");
-	if(proj[0].checked == false && proj[1].checked == false){
-		return false;
-	}
-//valida novo objeto
-//valida vertices e faces
-	if(document.getElementById('vertices').value == ''){
-		return false;
-	}
-	if(document.getElementById('faces').value == ''){
-		return false;
-	}
-	var v = parseInt(document.getElementById("vertices").value);
-	if(v < 3){
-		alert('Número de vertices deve ser maior que 3');
-		return false;
-	}
-	var f = parseInt(document.getElementById("faces").value);
-  for(var i = 1; i <= v; i++){
-			if(document.getElementById("v"+i+"-x").value == ''){
-				return false;
-			}
-			if(document.getElementById("v"+i+"-y").value == ''){
-				return false;
-			}
-			if(document.getElementById("v"+i+"-z").value == ''){
-				return false;
-			}
-	}
-
-  for(var i = 1; i <= f; i++){
-		var fc = document.getElementsByName("f"+i);
-		var cont = 0;
-		for(var j = 0; j < v; j++){
-			if(fc[j].checked == true){
-				cont++;
-			}
-		}
-		if(cont < 3){
-			alert('Necessário marcar pelo menos 3 vértices');
-			return false;
-		}
-	}
-
-	return true;
-}
-function validaPonto(id){
-	if(document.getElementById('pp-p'+id+'-x').value == ''){
-		return false;
-	}
-	if(document.getElementById('pp-p'+id+'-y').value == ''){
-		return false;
-	}
-	if(document.getElementById('pp-p'+id+'-z').value == ''){
-		return false;
-	}
-	return true;
+function calculaOffset(){
+  var arg = document.getElementById('viewport');
+  var top = 0;
+  var left = 0;
+  if(arg.offsetParent) {
+    do {
+      left += arg.offsetLeft;
+      top += arg.offsetTop;
+    }while(arg = arg.offsetParent)
+  }
+  var retorno = new Array(2);
+  retorno[0] = left;
+  retorno[1] = top;
+  return retorno;
 }
 
 function projeta(){
@@ -159,8 +84,11 @@ function projeta(){
     matriz = calculaMatrizConica(plano[0],vetorNormalPlano,pontoVista);
   } else{ //projecao Paralela
   }
-  var coordenadasPontosNaProjecao = calculaCoordenadasNaProjecao(matriz,vertice);
-
+	//calculando as coordenadas cartesianas dos pontos no plano de projecao
+  var coordenadasProjecao = calculaCoordenadasNaProjecao(matriz,vertice);
+	//realizando a transformacao janela x viewport
+  var coordenadasViewport = calculaViewPort(coordenadasProjecao, nVertices);
+  alert(coordenadasViewport);
 
 }
 
@@ -245,6 +173,134 @@ function calculaCoordenadasNaProjecao(matriz,vertice){
     }
   }
   return coordenadasPlano;
+}
+
+function calculaViewPort(coordenadasProjecao, nVertices){
+  //transformando as coordenadas da Projecao para coordenadas homogeneas novamente
+  var coordProjHomogenea = new Array(3);
+  coordProjHomogenea[0] = coordenadasProjecao[0];
+  coordProjHomogenea[1] = aplicaReflexao(coordenadasProjecao[1]); //as coordenadas homogeneas já recebem os valores em Y refletidas, pois o dispositivo de visualização começa com a origem (0,0) no topo
+  coordProjHomogenea[2] = new Array(nVertices);
+  for(var i=0; i< nVertices; i++){
+    coordProjHomogenea[2][i] = 1;
+  }
+
+
+  //definindo xMin, xMax, yMin, yMax da janela
+  var xMin = encontraMin(coordProjHomogenea[0]);
+  var xMax = encontraMax(coordProjHomogenea[0]);
+  var yMin = encontraMin(coordProjHomogenea[1]);
+  var yMax = encontraMax(coordProjHomogenea[1]);
+
+  /*descobrindo onde se inicia a viewport na tela do dispositivo.
+    offsets[0] = coordenada em X;
+    offsets[1] = coordenada em Y;*/
+  var offsets = calculaOffset();
+
+  //definindo uMax, uMin, vMax, vMin
+  var uMin = offsets[0];
+  var vMin = offsets[1];
+  var uMax = uMin + document.getElementById("viewport").offsetWidth;
+  var vMax = vMin + document.getElementById("viewport").offsetHeight;
+
+  /*
+  //verificando o aspectRatio
+  var rW = (xMax - xMin)/(yMax - yMin);
+  var rV = (uMax - uMin)/(vMax - vMin);
+  if(rW > rV){
+    vMaxNovo = ((uMax - uMin) / rW) + vMin;
+  } else {
+    uMaxNovo = rW * (vMax - vMin) + uMin;
+  }
+
+  //Definindo a matriz de multiplicação da viewport
+  var sX = (uMax - uMin) / (xMax - xMin);
+  var sY = (vMax - vMin) / (yMax - yMin);
+  var matrizViewPort = new Array(3);
+  matrizViewPort[0] = new Array(3);
+  matrizViewPort[1] = new Array(3);
+  matrizViewPort[2] = new Array(3);
+
+  //calculando primeiro os campos que podem variar
+  if(rW > rV){
+    matrizViewPort[0][2] = -(sX * xMin);
+    matrizViewPort[1][2] = -(sY * yMin) - ((vMax - vMaxNovo)/2);
+  } else {
+    matrizViewPort[0][2] = -(sX * xMin) - ((uMax - uMaxNovo)/2);
+    matrizViewPort[1][2] = -(sY * yMin);
+  }
+
+  //definindo os demais campos estáticos
+  matrizViewPort[0][0] = sX;
+  matrizViewPort[0][1] = 0;
+  matrizViewPort[1][0] = 0;
+  matrizViewPort[1][1] = sY;
+  matrizViewPort[2][0] = 0;
+  matrizViewPort[2][1] = 0;
+  matrizViewPort[2][2] = 1;
+  */
+
+  var matrizViewPort = new Array(3);
+  matrizViewPort[0] = new Array(3);
+  matrizViewPort[1] = new Array(3);
+  matrizViewPort[2] = new Array(3);
+
+  matrizViewPort[0][0]= (uMax - uMin) / (xMax - xMin);
+  matrizViewPort[0][1]= 0;
+  matrizViewPort[0][2]= (-xMin * (uMax - uMin) / (xMax - xMin)) + uMin;
+  matrizViewPort[1][0]= 0;
+  matrizViewPort[1][1]= (vMax - vMin) / (yMax - yMin);
+  matrizViewPort[1][2]= (-yMin * (vMax - vMin) / (yMax - yMin)) + vMin;
+  matrizViewPort[2][0]= 0;
+  matrizViewPort[2][1]= 0;
+  matrizViewPort[2][2]= 1;
+
+  //realizando a multiplicacao da matriz pelos vértices
+  var coordVerticesViewPort = new Array(3);
+  for(var i=0; i< 3; i++){
+    coordVerticesViewPort[i] = new Array(coordProjHomogenea[0].length);
+    for(var j=0; j< coordProjHomogenea[0].length; j++){
+      var soma = 0;
+      for(var k=0; k < 3; k++){
+        soma += matrizViewPort[i][k] * coordProjHomogenea[k][j];
+      }
+      coordVerticesViewPort[i][j] = soma;
+    }
+  }
+
+  var matrizRetorno = new Array(2); //retorno é cartesiano, não homogeneo
+  matrizRetorno[0] = coordVerticesViewPort[0];
+  matrizRetorno[1] = coordVerticesViewPort[1];
+  return matrizRetorno;
+
+}
+
+function aplicaReflexao(vetor){
+  var vetorRetorno = new Array(vetor.length);
+  for(var i=0; i < vetor.length; i++){
+    vetorRetorno[i] = -vetor[i];
+  }
+  return vetorRetorno;
+}
+
+function encontraMin(vetor){
+  var min = Number.POSITIVE_INFINITY;
+  for(var i=0; i < vetor.length; i++){
+    if (vetor[i] < min) {
+      min = vetor[i];
+    }
+  }
+  return min;
+}
+
+function encontraMax(vetor){
+  var max = Number.NEGATIVE_INFINITY;
+  for(var i=0; i < vetor.length; i++){
+    if (vetor[i] > max) {
+      max = vetor[i];
+    }
+  }
+  return max;
 }
 
 function setObjeto(){
