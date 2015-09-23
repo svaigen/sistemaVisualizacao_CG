@@ -220,5 +220,4 @@ function Projecao(){
 
         return this.multiplicacaoMatriz(mvp, m);
     }
-
 }
