@@ -1,0 +1,181 @@
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <link href="../css/bootstrap.min.css" rel="stylesheet">
+      <link href="../css/style.css" rel="stylesheet">
+        <title> Sistema de Visualização </title>
+    </head>
+
+    <body>
+      <header>
+        <nav class="navbar navbar-default navbar-static-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed buttonMobile" data-toggle="collapse" data-target="#nav1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+
+            <div class="collapse navbar-collapse" id="nav1">
+              <ul class="nav navbar-nav">
+                <li class="active"><a href="index.html">Início</a></li>
+                <li><a href="sobre.html">Sobre</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </header>
+        <div class="well container">
+
+          <form id="formInput" name="form">
+          <div class="row">
+            <div class="text-center col-sm-3">
+              <h4>Definições de Visualização<h4>
+              <hr>
+              <table class="table small table-responsive table-striped table-condensed">
+                <tr>
+                  <th colspan="4">Plano de Projeção</th>
+                </tr>
+                <tr>
+                  <th></th>
+                  <th class="text-center">x</th>
+                  <th class="text-center">y</th>
+                  <th class="text-center">z</th>
+                </tr>
+                <tr>
+                  <td>P1</td>
+                  <td><input id="pp_x1" type="number" name="pp_p1_x" value="0" class="campo-preenchimento"></td>
+                  <td><input id="pp_y1" type="number" name="pp_p1_y" value="0" class="campo-preenchimento"></td>
+                  <td><input id="pp_z1" type="number" name="pp_p1_z" value="0" class="campo-preenchimento"></td>
+                </tr>
+                <tr>
+                  <td>P2</td>
+                  <td><input id="pp_x2" type="number" name="pp_p2_x" value="0" class="campo-preenchimento"></td>
+                  <td><input id="pp_y2" type="number" name="pp_p2_y" value="0" class="campo-preenchimento"></td>
+                  <td><input id="pp_z2" type="number" name="pp_p2_z" value="0" class="campo-preenchimento"></td>
+                </tr>
+                <tr>
+                  <td>P3</td>
+                  <td><input id="pp_x3" type="number" name="pp_p3_x" value="0" class="campo-preenchimento"></td>
+                  <td><input id="pp_y3" type="number" name="pp_p3_y" value="0" class="campo-preenchimento"></td>
+                  <td><input id="pp_z3" type="number" name="pp_p3_z" value="0" class="campo-preenchimento"></td>
+                </tr>
+              </table>
+              <table class="table small table-responsive table-striped table-condensed">
+                <tr>
+                  <th colspan="3">Ponto de Vista</th>
+                </tr>
+                <tr>
+                  <th class=" text-center">x</th>
+                  <th class=" text-center">y</th>
+                  <th class=" text-center">z</th>
+                </tr>
+                <tr>
+                  <td><input id="pv-x" type="number" name="pvx" value="0" class="campo-preenchimento"/></td>
+                  <td><input id="pv-y" type="number" name="pvy" value="0" class="campo-preenchimento"/></td>
+                  <td><input id="pv-z" type="number" name="pvz" value="0" class="campo-preenchimento"/></td>
+                </tr>
+              </table>
+              </div>
+        <div class="col-sm-6">
+            <div id="draw"></div>
+            <br>
+            <div class="text-center">
+              <h4>Definições da projeção</h4>
+              <label class="radio-inline"><input type="radio" name="opt-proj" value="per" onclick="getRadio(this.value)" checked>Cônica</label>
+              <label class="radio-inline"><input type="radio" name="opt-proj" value="par" onclick="getRadio(this.value)">Cilíndrica</label><br/>
+              <label class="checkbox-inline"><input type="checkbox" name="hide" id="hideCheck">Mostrar faces ocultas</label>
+            </br>
+            <input class="btn btn-primary btn-xs pull-center margem-btn" type="button" name="buttonView" value="PROJECTION"
+                onclick="getForm(this.form)">
+            </div>
+        </div>
+        <div class="col-sm-3 text-center">
+          <h4>Definições do objeto<h4>
+          <hr>
+          <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default">
+              <div class="panel-heading" role="tab" id="headingOne">
+                <h4 class="panel-title">
+                  <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Usar objeto já existente
+                  </a>
+                </h4>
+              </div>
+              <div id="collapseOne" class="panel-collapse collapse collapsing" role="tabpanel" aria-labelledby="headingOne">
+                <div class="panel-body">
+                  <select class="small form-control" id="objetos" onchange="objects()">
+                    <option value="0">Selecione</option>
+                    <option value="1">Cubo</option>
+                    <option value="2">Prisma</option>
+                    <option value="3">Casa</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingTwo">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  Especificar novo objeto
+                </a>
+              </h4>
+            </div>
+            <div id="collapseTwo" class="panel-collapse collapse collapsing" role="tabpanel" aria-labelledby="headingTwo">
+              <div class="panel-body">
+                <div class="text-left pull-left">
+                  <label class="small text-left">Nº vértices:</label>
+                  <input id="vertices" type="number" name="nvobject"
+                      value="0" class="campo-preenchimento" onkeypress="getEventNV(event,'nv');" min="3"
+                      onclick="getNV()">
+                  <label class="small text-left">Nº faces:</label>
+                  <input id="faces" type="number" name="nsobject"
+                      value="0" class="campo-preenchimento" onkeypress="getEvent(event,'ns');" min="1"
+                      onclick="getNS()">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="desc-vertices" class="hide">
+            <table class="table small table-responsive table-striped table-condensed" id="table-vertices">
+              <tr>
+                <th colspan="4">Vertices</th>
+              </tr>
+              <tr>
+                <th></th>
+                <th class="text-center">x</th>
+                <th class="text-center">y</th>
+                <th class="text-center">z</th>
+              </tr>
+            </table>
+          </div>
+          <div id="desc-faces" class="hide">
+            <table class="table small table-responsive table-striped table-condensed" id="table-faces">
+              <tr>
+                <th>Faces</th>
+                <th>Escolha os vértices</th>
+              </tr>
+            </table>
+          </div>
+      </div>
+      </div>
+</div>
+    </body>
+
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/jsgl.min.js"></script>
+    <script src="../js/validacao.js"></script>
+    <script src="../js/objetos.js"></script>
+    <script src="../js/plotar.js"></script>
+    <script src="../js/projecao.js"></script>
+    <script src="../js/objetos/cubo.js"></script>
+    <script src="../js/objetos/prisma.js"></script>
+    <script src="../js/objetos/casa.js"></script>
+
+</html>
