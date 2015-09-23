@@ -27,12 +27,12 @@ function setViewPointCube(){
 }
 
 function setSurfaceVerticesCube(){
-    document.getElementById("faces0").value = "6-7-8-5";
-    document.getElementById("faces1").value = "7-2-3-8";
-    document.getElementById("faces2").value = "2-1-4-3";
-    document.getElementById("faces3").value = "6-5-4-1";
-    document.getElementById("faces4").value = "2-7-6-1";
-    document.getElementById("faces5").value = "8-3-4-5";
+    document.getElementById("faces0").value = "6 7 8 5";
+    document.getElementById("faces1").value = "7 2 3 8";
+    document.getElementById("faces2").value = "2 1 4 3";
+    document.getElementById("faces3").value = "6 5 4 1";
+    document.getElementById("faces4").value = "2 7 6 1";
+    document.getElementById("faces5").value = "8 3 4 5";
 }
 
 function setProjectionPlaneCoordCube(){

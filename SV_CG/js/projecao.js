@@ -1,7 +1,7 @@
 plot = new Plot();
 projecao = new Projecao();
 
-function objects(){
+function objeto(){
   var obj = document.getElementById("objetos").value;
 
   if(obj == 1){
