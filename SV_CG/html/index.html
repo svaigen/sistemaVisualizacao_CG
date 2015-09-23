@@ -86,9 +86,9 @@
             <hr>
             <div class="text-center">
               <h4>Definições da projeção</h4>
-              <label class="radio-inline"><input type="radio" name="opt-proj" value="conica" onclick="getRadio(this.value)" checked>Cônica</label>
-              <label class="radio-inline"><input type="radio" name="opt-proj" value="cilindrica" onclick="getRadio(this.value)">Cilíndrica</label><br/>
-              <label class="checkbox-inline"><input type="checkbox" name="hide" id="hideCheck">Faces ocultas</label>
+              <label class="radio-inline"><input type="radio" name="opt-proj" value="conica" onclick="getDefinicao(this.value)" checked>Cônica</label>
+              <label class="radio-inline"><input type="radio" name="opt-proj" value="cilindrica" onclick="getDefinicao(this.value)">Cilíndrica</label><br/>
+              <label class="checkbox-inline"><input type="checkbox" name="hide" id="fo">Faces ocultas</label>
             </br>
             <input class="btn btn-primary btn-sm pull-center margem-btn" type="button" name="buttonView" value="Projetar"
                 onclick="getForm(this.form)">
@@ -108,7 +108,7 @@
               </div>
               <div id="collapseOne" class="panel-collapse collapse collapsing" role="tabpanel" aria-labelledby="headingOne">
                 <div class="panel-body">
-                  <select class="small form-control" id="objetos" onchange="objects()">
+                  <select class="small form-control" id="objetos" onchange="objeto()">
                     <option value="0">Selecione</option>
                     <option value="1">Cubo</option>
                     <option value="2">Prisma</option>
@@ -131,11 +131,11 @@
                 <div class="text-left pull-left">
                   <label class="small text-left">Nº vértices:</label>
                   <input id="vertices" type="number" name="nvobject"
-                      value="0" class="campo-preenchimento" onkeypress="getEvent(event,'nv');" min="3"
+                      value="0" class="campo-preenchimento" onkeypress="geraVerticesFaces(event,'nv');" min="3"
                       onclick="getNumeroVertice()">
                   <label class="small text-left">Nº faces:</label>
                   <input id="faces" type="number" name="nsobject"
-                      value="0" class="campo-preenchimento" onkeypress="getEvent(event,'ns');" min="1"
+                      value="0" class="campo-preenchimento" onkeypress="geraVerticesFaces(event,'ns');" min="1"
                       onclick="getNumeroFace()">
                 </div>
               </div>

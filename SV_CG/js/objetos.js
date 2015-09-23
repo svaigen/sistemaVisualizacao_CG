@@ -12,15 +12,15 @@ document.onkeydown = function(e){
     projecao.projeta();
 }
 
-function hideChecked(){
-    projecao.facesOcultas = document.getElementById("hideCheck").checked;
+function faceOculta(){
+    projecao.facesOcultas = document.getElementById("fo").checked;
 }
 
-function getRadio(value){
+function getDefinicao(value){
     projecao.tipoProjecao = value;
 }
 
-function getEvent(e, type){
+function geraVerticesFaces(e, type){
     if (e.keyCode == 13){
         if (type == "nv")
             getNumeroVertice();
@@ -153,7 +153,7 @@ function getFormVertices(form){
 }
 
 function getForm(form){
-    hideChecked();
+    faceOculta();
     getFormView(form);
     getFormProjection(form);
     getFormVertices(form);
