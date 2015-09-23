@@ -1,30 +1,30 @@
 document.onkeydown = function(e){
     if (e.keyCode == 87)
-        projection.view_point.y += 1;
+        projecao.pontoDeVista.y += 1;
     else if (e.keyCode == 83)
-        projection.view_point.y -= 1;
+        projecao.pontoDeVista.y -= 1;
     else if (e.keyCode == 65)
-        projection.view_point.x -= 1;
+        projecao.pontoDeVista.x -= 1;
     else if (e.keyCode == 68)
-        projection.view_point.x += 1;
-    document.getElementById("pv-x").value = projection.view_point.x;
-    document.getElementById("pv-y").value = projection.view_point.y;
-    projection.projeta();
+        projecao.pontoDeVista.x += 1;
+    document.getElementById("pv-x").value = projecao.pontoDeVista.x;
+    document.getElementById("pv-y").value = projecao.pontoDeVista.y;
+    projecao.projeta();
 }
 
 function hideChecked(){
-    projection.hide = document.getElementById("hideCheck").checked;
+    projecao.facesOcultas = document.getElementById("hideCheck").checked;
 }
 
 function getRadio(value){
-    projection.type = value;
+    projecao.tipoProjecao = value;
 }
 
 function getEvent(e, type){
     if (e.keyCode == 13){
         if (type == "nv")
             getNumeroVertice();
-        else if (type == "ns")
+        else if (type == "numeroFaces")
             getNumeroFace();
     }
 }
@@ -33,18 +33,18 @@ function getNumeroVertice(){
     var nv = document.getElementById("vertices");
     var n_vertices = parseInt(nv.value);
 
-    projection.setNumeroVertice(n_vertices);
+    projecao.numeroVertices = n_vertices;
     appendInput(n_vertices, 3, "desc-vertices", "vertices",
             "nvobject", "V", "campo-preenchimento", "number", "0","table-vertices");
-            document.getElementById("desc-vertices").className -="hide"
+    document.getElementById("desc-vertices").className -="hide";
 }
 
 function getNumeroFace(){
-    var ns = document.getElementById("faces");
-    var n_surfaces = parseInt(ns.value);
+    var numeroFaces = document.getElementById("faces");
+    var n_faces = parseInt(numeroFaces.value);
 
-    projection.setNumeroFace(n_surfaces);
-    appendInput(n_surfaces, 1, "desc-faces", "faces",
+    projecao.numeroFaces = n_faces;
+    appendInput(n_faces, 1, "desc-faces", "faces",
             "nsobject", "S", "boxSizeVL", "text", "","table-faces");
             document.getElementById("desc-faces").className -="hide"
 }
@@ -74,7 +74,7 @@ function appendInput(n, n_input, id_parent, id_input, name_input,
             for (var i = 1; i <= n; i++){
                 var novaLinha = table.insertRow(numLinhas++);
                 var cel0 = novaLinha.insertCell(0);
-                cel0.innerHTML = "V"+i;
+                cel0.innerHTML = i;
                 var text = type + (i) + ":";
                 var id = type + (i-1);
                 for (var j = 1; j <= n_input; j++){
@@ -98,43 +98,43 @@ function createInput(id, name, className, type, value){
 }
 
 function getFormSurfaceVertices(form){
-    projection.surfaces = [];
-    var n_surfaces = projection.getNumeroFace();
-    for (var i = 0; i < n_surfaces; i++){
+    projecao.faces = [];
+    var n_faces = projecao.numeroFaces;
+    for (var i = 0; i < n_faces; i++){
         var s = form.elements["nsobject" + i].value.split("-");
         var surface = [];
         for (var j = 0; j < s.length; j++){
             var vt = parseInt(s[j]);
-            surface.push({vt: [vt, projection.vertices_coord[vt - 1]]});
+            surface.push({vt: [vt, projecao.verticesCoordenadas[vt - 1]]});
         }
-        projection.surfaces.push(surface);
+        projecao.faces.push(surface);
     }
 }
 
 function getFormView(form){
-    projection.view_point.x = parseInt(form.pvx.value);
-    projection.view_point.y = parseInt(form.pvy.value);
-    projection.view_point.z = parseInt(form.pvz.value);
+    projecao.pontoDeVista.x = parseInt(form.pvx.value);
+    projecao.pontoDeVista.y = parseInt(form.pvy.value);
+    projecao.pontoDeVista.z = parseInt(form.pvz.value);
 }
 
 function getFormProjection(form){
-    projection.plane.p1.x = parseInt(form.pp_p1_x.value);
-    projection.plane.p1.y = parseInt(form.pp_p1_y.value);
-    projection.plane.p1.z = parseInt(form.pp_p1_z.value);
+    projecao.planoProjecao.p1.x = parseInt(form.pp_p1_x.value);
+    projecao.planoProjecao.p1.y = parseInt(form.pp_p1_y.value);
+    projecao.planoProjecao.p1.z = parseInt(form.pp_p1_z.value);
 
-    projection.plane.p2.x = parseInt(form.pp_p2_x.value);
-    projection.plane.p2.y = parseInt(form.pp_p2_y.value);
-    projection.plane.p2.z = parseInt(form.pp_p2_z.value);
+    projecao.planoProjecao.p2.x = parseInt(form.pp_p2_x.value);
+    projecao.planoProjecao.p2.y = parseInt(form.pp_p2_y.value);
+    projecao.planoProjecao.p2.z = parseInt(form.pp_p2_z.value);
 
-    projection.plane.p3.x = parseInt(form.pp_p3_x.value);
-    projection.plane.p3.y = parseInt(form.pp_p3_y.value);
-    projection.plane.p3.z = parseInt(form.pp_p3_z.value);
+    projecao.planoProjecao.p3.x = parseInt(form.pp_p3_x.value);
+    projecao.planoProjecao.p3.y = parseInt(form.pp_p3_y.value);
+    projecao.planoProjecao.p3.z = parseInt(form.pp_p3_z.value);
 }
 
 
 function getFormVertices(form){
-    projection.vertices_coord = [];
-    var n_vertices = projection.getNumeroVertice();
+    projecao.verticesCoordenadas = [];
+    var n_vertices = projecao.numeroVertices;
     var x,y,z,counter = 0;
     for (var i = 0; i < n_vertices*3; i++){
         if (i % 3 == 0){
@@ -147,7 +147,7 @@ function getFormVertices(form){
         counter++;
         if (counter == 3){
             counter = 0;
-            projection.setNovoVertice(parseInt(x), parseInt(y), parseInt(z));
+            projecao.adicionaVertice(parseInt(x), parseInt(y), parseInt(z));
         }
     }
 }
@@ -159,7 +159,7 @@ function getForm(form){
     getFormVertices(form);
     getFormSurfaceVertices(form);
    if(validar()){
-    projection.projeta();
+    projecao.projeta();
   }else{
     alert('Preencha todos os campos!');
   }

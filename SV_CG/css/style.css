@@ -3,11 +3,6 @@
   margin-right: 50px;
 }
 
-.viewport{
-  background-color: #000;
-  min-width: 500px;
-  min-height: 400px;
-}
 
 .campo-preenchimento{
   max-width: 40px;
@@ -18,9 +13,9 @@
   margin-bottom: 10px;
 }
 
-#draw{
-    width: 550px;
-    height: 500px;
-    border: 1px solid;
-    background-color: black;
+#viewport{
+    width: 450px;
+    height: 400px;
+    background-color: #000;
+    margin: auto;
 }

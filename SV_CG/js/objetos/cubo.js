@@ -1,4 +1,4 @@
-function genCube(){
+function cubo(){
     setViewPointCube();
 
     setProjectionPlaneCoordCube();
@@ -20,7 +20,7 @@ function genCube(){
 function setViewPointCube(){
     document.getElementById("pv-x").value = 0;
     document.getElementById("pv-y").value = 0;
-    if (projection.type == "par")
+    if (projecao.tipoProjecao == "cilindrica")
         document.getElementById("pv-z").value = 40;
     else
         document.getElementById("pv-z").value = -40;

@@ -74,7 +74,7 @@
                   <th class=" text-center">y</th>
                   <th class=" text-center">z</th>
                 </tr>
-                <tr>
+                <tr class="text-center">
                   <td><input id="pv-x" type="number" name="pvx" value="0" class="campo-preenchimento"/></td>
                   <td><input id="pv-y" type="number" name="pvy" value="0" class="campo-preenchimento"/></td>
                   <td><input id="pv-z" type="number" name="pvz" value="0" class="campo-preenchimento"/></td>
@@ -82,15 +82,15 @@
               </table>
               </div>
         <div class="col-sm-6">
-            <div id="draw"></div>
-            <br>
+            <div id="viewport" class="text-center"></div>
+            <hr>
             <div class="text-center">
               <h4>Definições da projeção</h4>
-              <label class="radio-inline"><input type="radio" name="opt-proj" value="per" onclick="getRadio(this.value)" checked>Cônica</label>
-              <label class="radio-inline"><input type="radio" name="opt-proj" value="par" onclick="getRadio(this.value)">Cilíndrica</label><br/>
-              <label class="checkbox-inline"><input type="checkbox" name="hide" id="hideCheck">Mostrar faces ocultas</label>
+              <label class="radio-inline"><input type="radio" name="opt-proj" value="conica" onclick="getRadio(this.value)" checked>Cônica</label>
+              <label class="radio-inline"><input type="radio" name="opt-proj" value="cilindrica" onclick="getRadio(this.value)">Cilíndrica</label><br/>
+              <label class="checkbox-inline"><input type="checkbox" name="hide" id="hideCheck">Faces ocultas</label>
             </br>
-            <input class="btn btn-primary btn-xs pull-center margem-btn" type="button" name="buttonView" value="PROJECTION"
+            <input class="btn btn-primary btn-sm pull-center margem-btn" type="button" name="buttonView" value="Projetar"
                 onclick="getForm(this.form)">
             </div>
         </div>
@@ -131,12 +131,12 @@
                 <div class="text-left pull-left">
                   <label class="small text-left">Nº vértices:</label>
                   <input id="vertices" type="number" name="nvobject"
-                      value="0" class="campo-preenchimento" onkeypress="getEventNV(event,'nv');" min="3"
-                      onclick="getNV()">
+                      value="0" class="campo-preenchimento" onkeypress="getEvent(event,'nv');" min="3"
+                      onclick="getNumeroVertice()">
                   <label class="small text-left">Nº faces:</label>
                   <input id="faces" type="number" name="nsobject"
                       value="0" class="campo-preenchimento" onkeypress="getEvent(event,'ns');" min="1"
-                      onclick="getNS()">
+                      onclick="getNumeroFace()">
                 </div>
               </div>
             </div>

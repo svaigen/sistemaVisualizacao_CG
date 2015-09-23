@@ -1,4 +1,4 @@
-function genPrism(){
+function prisma(){
     setViewPointPrism();
 
     setProjectionPlaneCoordPrism();
@@ -18,9 +18,9 @@ function genPrism(){
 }
 
 function setViewPointPrism(){
-    if (projection.type === "par"){
+    if (projecao.tipoProjecao === "cilindrica"){
         document.getElementById("pv-x").value = 0;
-        document.getElementById("pv-y").value = 0;
+        document.getEtipoProjecaontById("pv-y").value = 0;
         document.getElementById("pv-z").value = 1;
     } else {
         document.getElementById("pv-x").value = 1;

@@ -1,130 +1,148 @@
+plot = new Plot();
+projecao = new Projecao();
+
+function objects(){
+  var obj = document.getElementById("objetos").value;
+
+  if(obj == 1){
+    cubo();
+  }
+  if(obj == 2){
+    prisma();
+  }
+  if(obj == 3){
+    casa();
+  }
+}
+
 function Projecao(){
-    this.viewport = {umin: 50, vmin: 50, umax: 500, vmax: 450};
-    this.view_point = {x: 0, y: 0, z: 0};
-    this.nv = 0;
-    this.vertices_coord = [];
-    this.plane = {p1: {x: 0, y: 0, z:0},
-                  p2: {x: 0, y: 0, z:0},
-                  p3: {x: 0, y: 0, z:0}}
+    //inicializacao das variaveis de janela e viewport
+    this.umin = 50;
+    this.vmin= 50;
+    this.umax= document.getElementById("viewport").offsetWidth - 50;
+    this.vmax= document.getElementById("viewport").offsetHeight - 50;
 
-    this.type = "per";
-
-    this.hide = false;
-
-    this.ns = 0;
-    this.surfaces = [];
-
-    this.setNumeroVertice = function(nv){
-        this.nv = nv;
+    //inicializacao das variaveis utilizadas para a projecao
+    this.tipoProjecao = "conica";
+    this.facesOcultas = false;
+    this.pontoDeVista = {x: 0, y: 0, z: 0};
+    this.planoProjecao = {
+      p1: {x: 0, y: 0, z:0},
+      p2: {x: 0, y: 0, z:0},
+      p3: {x: 0, y: 0, z:0}
     }
+    this.numeroVertices = 0;
+    this.numeroFaces = 0;
+    this.faces = [];
+    this.verticesCoordenadas = [];
 
-    this.getNumeroVertice = function(){
-        return this.nv;
-    }
-
-    this.setNumeroFace = function(ns){
-        this.ns = ns;
-    }
-
-    this.getNumeroFace = function(){
-        return this.ns;
-    }
-
-    this.setNovoVertice = function(x, y, z){
-        this.vertices_coord.push({"x": x, "y": y, "z": z})
+    this.adicionaVertice = function(x, y, z){
+        this.verticesCoordenadas.push({"x": x, "y": y, "z": z})
     }
 
     this.projeta = function(){
-        var r0 = this.plane.p2;
-        var n = this.getNormal(this.plane.p1, this.plane.p2, this.plane.p3);
-        var d0 = r0.x * n[0] + r0.y * n[1] + r0.z * n[2];
-        var a = this.view_point.x;
-        var b = this.view_point.y;
-        var c = this.view_point.z;
-        var d1 = a * n[0] + b * n[1] + c * n[2];
+        var pontoConhecido = this.planoProjecao.p1;
+
+        var normal = this.getNormal(this.planoProjecao.p1, this.planoProjecao.p2, this.planoProjecao.p3);
+
+        var a = this.pontoDeVista.x;
+        var b = this.pontoDeVista.y;
+        var c = this.pontoDeVista.z;
+
+        var d0 = pontoConhecido.x * normal[0] + pontoConhecido.y * normal[1] + pontoConhecido.z * normal[2];
+        var d1 = a * normal[0] + b * normal[1] + c * normal[2];
         var d = d0 - d1;
 
-        var mpper = [[ d + a * n[0],     a * n[1],     a * n[2], -a * d0],
-                     [     b * n[0], d + b * n[1],     b * n[2], -b * d0],
-                     [     c * n[0],     c * n[1], d + c * n[2], -c * d0],
-                     [         n[0],         n[1],         n[2],     -d1]];
+        var matrizConica = [
+          [ (d + a * normal[0]), (a * normal[1]), (a * normal[2]), (-a * d0)],
+          [ (b * normal[0]), (d + b * normal[1]), (b * normal[2]), (-b * d0)],
+          [ (c * normal[0]), (c * normal[1]), (d + c * normal[2]), (-c * d0)],
+          [ (normal[0]), (normal[1]), (normal[2]), (-d1)]
+        ];
 
 
-        var mppar = [[  d - a * n[0],    -a * n[1],     -a * n[2], a * d0],
-                     [     -b * n[0], d - b * n[1],     -b * n[2], b * d0],
-                     [     -c * n[0],    -c * n[1],  d - c * n[2], c * d0],
-                     [             0,            0,             0,     d1]];
+        var matrizCilindrica = [
+          [  (d - a * normal[0]), (-a * normal[1]), (-a * normal[2]), (a * d0)],
+          [ (-b * normal[0]), (d - b * normal[1]), (-b * normal[2]), (b * d0)],
+          [ (-c * normal[0]), (-c * normal[1]), (d - c * normal[2]), (c * d0)],
+          [ (0), (0), (0), (d1)]
+        ];
 
-        var mvt = this.getVerticesMatrix();
-        var new_matrix;
-        if (this.type === "per") new_matrix = this.multiplicacaoMatriz(mpper, mvt);
-        else new_matrix = this.multiplicacaoMatriz(mppar, mvt);
-        new_matrix = this.conversaoCoordenadasCartesianas(new_matrix);
-        this.reflexao(new_matrix);
-        var min = this.getMin(new_matrix);
-        var max = this.getMax(new_matrix);
-        new_matrix = this.transformacaoCoordenadasDispositivo(new_matrix, max, min);
-        this.plotaPontos(new_matrix);
+        var verticesHomogeneos = this.geraMatrizVerticesHomogenea();
+        var matrizResultante;
+        if (this.tipoProjecao === "conica"){
+          matrizResultante = this.multiplicacaoMatriz(matrizConica, verticesHomogeneos);
+        }
+        else{
+          matrizResultante = this.multiplicacaoMatriz(matrizCilindrica, verticesHomogeneos);
+        }
+        matrizResultante = this.conversaoCoordenadasCartesianas(matrizResultante);
+        this.reflexao(matrizResultante);
+        var min = this.minimos(matrizResultante);
+        var max = this.maximos(matrizResultante);
+        matrizResultante = this.transformacaoCoordenadasDispositivo(matrizResultante, max, min);
+        this.plotaPontos(matrizResultante);
     }
 
-    this.reflexao = function(new_matrix){
-        for (var i = 0; i < this.nv; i++){
-            new_matrix[1][i] = -new_matrix[1][i];
+    this.reflexao = function(m){
+        for (var i = 0; i < this.numeroVertices; i++){
+            m[1][i] = -m[1][i];
         }
     }
 
-    this.getMin = function(matrix){
+    this.minimos = function(m){
         var min = {x: Number.POSITIVE_INFINITY, y: Number.POSITIVE_INFINITY};
-        for (var i = 0; i < this.nv; i++){
-            if (matrix[0][i] < min.x)
-                min.x = matrix[0][i];
-            if (matrix[1][i] < min.y){
-                min.y = matrix[1][i];
+        for (var i = 0; i < this.numeroVertices; i++){
+            if (m[0][i] < min.x){
+                min.x = m[0][i];
+            }
+            if (m[1][i] < min.y){
+                min.y = m[1][i];
             }
         }
         return min;
     }
 
-    this.getMax = function(matrix){
+    this.maximos = function(m){
         var max = {x: Number.NEGATIVE_INFINITY, y: Number.NEGATIVE_INFINITY};
-        for (var i = 0; i < this.nv; i++){
-            if (matrix[0][i] > max.x)
-                max.x = matrix[0][i];
-            if (matrix[1][i] > max.y){
-                max.y = matrix[1][i];
+        for (var i = 0; i < this.numeroVertices; i++){
+            if (m[0][i] > max.x){
+              max.x = m[0][i];
+            }
+            if (m[1][i] > max.y){
+                max.y = m[1][i];
             }
         }
         return max;
     }
 
-    this.plotaPontos = function(matrix){
+    this.plotaPontos = function(m){
         plot.clear();
-        for (var i = 0; i < this.ns; i++){
-            var visible = true;
-            if (this.hide == true)
-                visible = this.isVisible(this.surfaces[i]);
-            if (visible)
-                for (var j = 0; j < this.surfaces[i].length - 1; j++){
-                    var vt1 = parseInt(this.surfaces[i][j].vt);
-                    var vt2 = parseInt(this.surfaces[i][j+1].vt);
-                    var point1 = {x: matrix[0][vt1-1], y: matrix[1][vt1-1]};
-                    var point2 = {x: matrix[0][vt2-1], y: matrix[1][vt2-1]};
+        for (var i = 0; i < this.numeroFaces; i++){
+            var visivel = true;
+            if (this.facesOcultas == true)
+                visivel = this.visivel(this.faces[i]);
+            if (visivel)
+                for (var j = 0; j < this.faces[i].length - 1; j++){
+                    var v1 = parseInt(this.faces[i][j].vt);
+                    var v2 = parseInt(this.faces[i][j+1].vt);
+                    var p1 = {x: m[0][v1-1], y: m[1][v1-1]};
+                    var p2 = {x: m[0][v2-1], y: m[1][v2-1]};
                     if (j == 0){
-                        var vt_f = parseInt(this.surfaces[i][this.surfaces[i].length -1].vt);
-                        pointf = {x: matrix[0][vt_f-1], y: matrix[1][vt_f-1]};
-                        plot.draw_line(point1, pointf);
+                        var vFinal = parseInt(this.faces[i][this.faces[i].length -1].vt);
+                        pFinal = {x: m[0][vFinal-1], y: m[1][vFinal-1]};
+                        plot.draw_line(p1, pFinal);
                     }
-                    plot.draw_line(point1, point2);
+                    plot.draw_line(p1, p2);
                 }
-
         }
     }
 
-    this.isVisible = function(surface){
+    this.visivel = function(surface){
         var n = this.getNormal(surface[1].vt[1], surface[0].vt[1], surface[2].vt[1]);
-        var vx = this.view_point.x;
-        var vy = this.view_point.y;
-        var vz = this.view_point.z;
+        var vx = this.pontoDeVista.x;
+        var vy = this.pontoDeVista.y;
+        var vz = this.pontoDeVista.z;
         var point = surface[1].vt[1];
         var d = [point.x - vx, point.y - vy, point.z - vz];
         var scalar_nv = n[0]*d[0] + n[1]*d[1] + n[2]*d[2];
@@ -133,95 +151,74 @@ function Projecao(){
         return true;
     }
 
-    this.multiplicacaoMatriz = function(m, mvt){
-        var new_matrix = [];
-        for (var i = 0; i < m.length; i++){
-            new_matrix.push([]);
-            for (var j = 0; j < this.nv; j++){
-                var new_value = 0;
-                for (var k = 0; k < m.length; k++){
-                    new_value += m[i][k]*mvt[k][j];
+    this.multiplicacaoMatriz = function(m1, m2){
+        var matriz = [];
+        for (var i = 0; i < m1.length; i++){
+            matriz.push([]);
+            for (var j = 0; j < this.numeroVertices; j++){
+                var soma = 0;
+                for (var k = 0; k < m1.length; k++){
+                    soma += m1[i][k]*m2[k][j];
                 }
-                new_matrix[i].push(new_value);
+                matriz[i].push(soma);
             }
         }
-        return new_matrix;
+        return matriz;
     }
 
-    this.getVerticesMatrix = function(){
-        var matrix_vt = [[], [], [], []];
-        for (var i = 0; i < this.nv; i++){
-            var x = this.vertices_coord[i].x;
-            var y = this.vertices_coord[i].y;
-            var z = this.vertices_coord[i].z;
-            matrix_vt[0].push(x);
-            matrix_vt[1].push(y);
-            matrix_vt[2].push(z);
-            matrix_vt[3].push(1);
+    this.geraMatrizVerticesHomogenea = function(){
+        var matrizVertices = [[], [], [], []];
+        for (var i = 0; i < this.numeroVertices; i++){
+            var x = this.verticesCoordenadas[i].x;
+            var y = this.verticesCoordenadas[i].y;
+            var z = this.verticesCoordenadas[i].z;
+            matrizVertices[0].push(x);
+            matrizVertices[1].push(y);
+            matrizVertices[2].push(z);
+            matrizVertices[3].push(1);
         }
-        return matrix_vt;
+        return matrizVertices;
     }
 
     this.getNormal = function(p1, p2, p3){
-        var u = [p2.x - p1.x,
-                 p2.y - p1.y,
-                 p2.z - p1.z];
+        //subtracao p2 - p1
+        var p2p1 = [
+          p2.x - p1.x,
+          p2.y - p1.y,
+          p2.z - p1.z];
+        //subtracao p3 - p2
+        var p3p2 = [
+          p3.x - p1.x,
+          p3.y - p1.y,
+          p3.z - p1.z];
 
+        //calcula o determinante
+        var nx = p2p1[1]*p3p2[2] - p2p1[2]*p3p2[1];
+        var nj = p2p1[2]*p3p2[0] - p2p1[0]*p3p2[2];
+        var nk = p2p1[0]*p3p2[1] - p2p1[1]*p3p2[0];
 
-        var v = [p3.x - p1.x,
-                 p3.y - p1.y,
-                 p3.z - p1.z];
-
-
-        //u x v
-        var s1 = u[1]*v[2] - u[2]*v[1];
-        var s2 = u[2]*v[0] - u[0]*v[2];
-        var s3 = u[0]*v[1] - u[1]*v[0];
-
-
-        return [s1, s2, s3];
+        return [nx, nj, nk];
     }
 
-    this.conversaoCoordenadasCartesianas = function(matrix){
-        var new_matrix = [[], [], []];
-        for (var i = 0; i < this.nv; i++){
-            var x = matrix[0][i] / matrix[3][i];
-            var y = matrix[1][i] / matrix[3][i];
-            var z = matrix[2][i] / matrix[3][i];
-            new_matrix[0].push(x);
-            new_matrix[1].push(y);
-            new_matrix[2].push(1);
+    this.conversaoCoordenadasCartesianas = function(m){
+        var matriz = [[], [], []];
+        for (var i = 0; i < this.numeroVertices; i++){
+            var x = m[0][i] / m[3][i];
+            var y = m[1][i] / m[3][i];
+            var z = m[2][i] / m[3][i];
+            matriz[0].push(x);
+            matriz[1].push(y);
+            matriz[2].push(1);
         }
-        return new_matrix;
+        return matriz;
     }
 
-    this.transformacaoCoordenadasDispositivo = function(matrix, max, min){
-        var umin = this.viewport.umin;
-        var vmin = this.viewport.vmin;
-        var umax = this.viewport.umax;
-        var vmax = this.viewport.vmax;
-        var mvp = [[(umax - umin) / (max.x - min.x), 0, (-min.x * (umax - umin) / (max.x - min.x)) + umin],
-                   [0, (vmax - vmin) / (max.y - min.y), (-min.y * (vmax - vmin) / (max.y - min.y)) + vmin],
+    this.transformacaoCoordenadasDispositivo = function(m, max, min){
+        var mvp = [[(this.umax - this.umin) / (max.x - min.x), 0, (-min.x * (this.umax - this.umin) / (max.x - min.x)) + this.umin],
+                   [0, (this.vmax - this.vmin) / (max.y - min.y), (-min.y * (this.vmax - this.vmin) / (max.y - min.y)) + this.vmin],
                    [0,  0,  1]];
 
-        return this.multiplicacaoMatriz(mvp, matrix);
+        return this.multiplicacaoMatriz(mvp, m);
     }
 
 }
-
-function objects(){
-  var obj = document.getElementById("objetos").value;
-
-  if(obj == 1){
-    genCube();
-  }
-  if(obj == 2){
-    genPrism();
-  }
-  if(obj == 3){
-    genHouse();
-  }
-}
-
-plot = new Plot();
-projection = new Projecao();

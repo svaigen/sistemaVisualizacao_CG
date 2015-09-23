@@ -1,4 +1,4 @@
-function genHouse(){
+function casa(){
     setViewPointHouse();
 
     setProjectionPlaneCoordHouse();

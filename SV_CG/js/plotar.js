@@ -1,5 +1,5 @@
 function Plot(){
-    var panel = new jsgl.Panel(document.getElementById("draw"));
+    var panel = new jsgl.Panel(document.getElementById("viewport"));
 
     this.draw_line = function(p1, p2){
         var line = panel.createLine();
