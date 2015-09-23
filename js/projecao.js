@@ -87,8 +87,10 @@ function projeta(){
 	//calculando as coordenadas cartesianas dos pontos no plano de projecao
   var coordenadasProjecao = calculaCoordenadasNaProjecao(matriz,vertice);
 	//realizando a transformacao janela x viewport
-  var coordenadasViewport = calculaViewPort(coordenadasProjecao, nVertices);
-  alert(coordenadasViewport);
+  var coordenadasViewPort = calculaViewPort(coordenadasProjecao, nVertices);
+
+	//plota os vertices
+	plotaVertices(coordenadasViewPort, faces);
 
 }
 
@@ -264,7 +266,7 @@ function calculaViewPort(coordenadasProjecao, nVertices){
       for(var k=0; k < 3; k++){
         soma += matrizViewPort[i][k] * coordProjHomogenea[k][j];
       }
-      coordVerticesViewPort[i][j] = soma;
+      coordVerticesViewPort[i][j] = parseInt(soma);
     }
   }
 
@@ -308,5 +310,40 @@ function setObjeto(){
 
 	if(obj == 1){
 		cubo();
+	}
+}
+
+function plotaVertices(verticesVP, faces){
+	var painel = new jsgl.Panel(document.getElementById("viewport"));
+	for(var i=0; i< faces.length; i++){
+		var vertices = faces[i];
+		var primeiroVertice = -1;
+		var verticeAnterior = -1;
+		for(var j=0; j<vertices.length; j++){
+			if(faces[i][j] == true){
+				if (verticeAnterior == -1){ //significa que ainda nao houve vertices marcados
+					primeiroVertice = j;
+					verticeAnterior = j;
+				} else {
+					var linha = painel.createLine();
+					linha.setStartPointXY(verticesVP[0][verticeAnterior],verticesVP[1][verticeAnterior]);
+					linha.setEndPointXY(verticesVP[0][j],verticesVP[1][j]);
+					with(linha.getStroke()){
+            setColor('rgb(0,0,0)');
+            setWeight(3);
+        	}
+        	painel.addElement(linha);
+				}
+			}
+		}
+		//"fechar a face"
+		var linha = painel.createLine();
+		linha.setStartPointXY(vertices[0][verticeAnterior],vertices[1][verticeAnterior]);
+		linha.setEndPointXY(vertices[0][primeiroVertice],vertices[1][primeiroVertice]);
+		with(linha.getStroke()){
+			setColor('rgb(0,0,0)');
+			setWeight(3);
+		}
+		painel.addElement(linha);
 	}
 }
