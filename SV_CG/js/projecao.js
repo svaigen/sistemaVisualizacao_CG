@@ -4,6 +4,9 @@ projecao = new Projecao();
 function objeto(){
   var obj = document.getElementById("objetos").value;
 
+  if(obj == 0){
+    limpar();
+  }
   if(obj == 1){
     piramide();
   }
@@ -13,6 +16,8 @@ function objeto(){
   if(obj == 3){
     casa();
   }
+
+
 }
 
 function Projecao(){

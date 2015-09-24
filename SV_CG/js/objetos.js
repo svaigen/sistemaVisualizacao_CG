@@ -248,3 +248,45 @@ function enviaPlanoDeProjecaoCasa(){
     document.getElementById("pp_y3").value = 1;
     document.getElementById("pp_z3").value = 0;
 }
+
+function limpar(){
+    //enviando os valores dos vertices
+    var vertices = document.getElementById("vertices");
+    vertices.value = 3;
+    getNumeroVertice();
+
+    //enviando os valores das faces
+    var faces = document.getElementById("faces");
+    faces.value = 1;
+    getNumeroFace();
+    enviaEspecificacaoFaces();
+
+    //enviando os valores de ponto de vista e plano de projecao
+    enviaPontoDeVista();
+    enviaPlanoDeProjecao();
+
+    //enviando os form gerados para as demais funcoes de projecao
+    var form = document.getElementById("formInput");
+    getDados(form);
+}
+
+function enviaPontoDeVista(){
+    document.getElementById("pv-x").value = 0;
+    document.getElementById("pv-y").value = 0;
+    document.getElementById("pv-z").value = 0;
+}
+
+function enviaPlanoDeProjecao(){
+    document.getElementById("pp_x1").value = 0;
+    document.getElementById("pp_y1").value = 0;
+    document.getElementById("pp_z1").value = 0;
+    document.getElementById("pp_x2").value = 0;
+    document.getElementById("pp_y2").value = 0;
+    document.getElementById("pp_z2").value = 0;
+    document.getElementById("pp_x3").value = 0;
+    document.getElementById("pp_y3").value = 0;
+    document.getElementById("pp_z3").value = 0;
+}
+function enviaEspecificacaoFaces(){
+    document.getElementById("faces0").value = "1 2 3";
+}
