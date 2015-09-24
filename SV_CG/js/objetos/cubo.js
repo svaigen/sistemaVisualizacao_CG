@@ -16,7 +16,7 @@ function cubo(){
     enviaPlanoDeProjecaoCubo();
 
     //enviando os dados gerados para as demais funcoes de projecao
-    var dados = document.getElementById("proj");
+    var dados = document.getElementById("formInput");
     getDados(dados);
 }
 
