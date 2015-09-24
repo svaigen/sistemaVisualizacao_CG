@@ -123,7 +123,7 @@ function enviaEspecificacaoFacesCubo(){
 }
 
 function enviaPontoDeVistaCubo(){
-    document.getElementById("pv-x").value = 0;
+    document.getElementById("pv-x").value = 3;
     document.getElementById("pv-y").value = 0;
     document.getElementById("pv-z").value = 10;
 }
