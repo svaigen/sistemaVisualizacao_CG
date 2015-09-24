@@ -13,8 +13,8 @@ function cubo(){
     getNumeroFace();
     setSurfaceVerticesCube();
 
-    var form = document.getElementById("formInput");
-    getForm(form);
+    var dados = document.getElementById("proj");
+    getDados(dados);
 }
 
 function setViewPointCube(){

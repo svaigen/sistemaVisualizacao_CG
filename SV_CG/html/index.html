@@ -31,7 +31,7 @@
       </header>
         <div class="well container">
 
-          <form id="formInput" name="form">
+          <form id="proj" name="dados">
           <div class="row">
             <div class="text-center col-sm-3">
               <h4>Definições de Visualização<h4>
@@ -91,7 +91,7 @@
               <label class="checkbox-inline"><input type="checkbox" name="hide" id="fo">Faces ocultas</label>
             </br>
             <input class="btn btn-primary btn-sm pull-center margem-btn" type="button" name="buttonView" value="Projetar"
-                onclick="getForm(this.form)">
+                onclick="getDados(this.dados)">
             </div>
         </div>
         <div class="col-sm-3 text-center">
@@ -131,11 +131,11 @@
                 <div class="text-left pull-left">
                   <label class="small text-left">Nº vértices:</label>
                   <input id="vertices" type="number" name="nvobject"
-                      value="0" class="campo-preenchimento" onkeypress="geraVerticesFaces(event,'nv');" min="3"
+                      value="0" class="campo-preenchimento" onkeypress="geraVerticesFaces(event,'numeroVertices');" min="3"
                       onclick="getNumeroVertice()">
                   <label class="small text-left">Nº faces:</label>
                   <input id="faces" type="number" name="nsobject"
-                      value="0" class="campo-preenchimento" onkeypress="geraVerticesFaces(event,'ns');" min="1"
+                      value="0" class="campo-preenchimento" onkeypress="geraVerticesFaces(event,'numeroFaces');" min="1"
                       onclick="getNumeroFace()">
                 </div>
               </div>
