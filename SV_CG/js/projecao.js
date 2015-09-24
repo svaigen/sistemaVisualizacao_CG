@@ -1,4 +1,4 @@
-plot = new Plot();
+plot = new Plotar();
 projecao = new Projecao();
 
 function objeto(){
@@ -22,10 +22,10 @@ function objeto(){
 
 function Projecao(){
     //inicializacao das variaveis de janela e viewport
-    this.umin = 50;
-    this.vmin= 50;
-    this.umax= document.getElementById("viewport").offsetWidth - 50;
-    this.vmax= document.getElementById("viewport").offsetHeight - 50;
+    this.umin = 0;
+    this.vmin= 0;
+    this.umax= document.getElementById("viewport").offsetWidth;
+    this.vmax= document.getElementById("viewport").offsetHeight;
 
     //inicializacao das variaveis utilizadas para a projecao
     this.tipoProjecao = "conica";
@@ -205,13 +205,40 @@ function Projecao(){
         return max;
     }
 
-    //Transforma de cartesiano para coordenadas dos dispositivo
+    //Transforma de cartesiano para coordenadas dos dispositivo por meio da transformacao de janelaViewPort
     this.transformacaoCoordenadasDispositivo = function(m, max, min){
-        var mvp = [[(this.umax - this.umin) / (max.x - min.x), 0, (-min.x * (this.umax - this.umin) / (max.x - min.x)) + this.umin],
-                   [0, (this.vmax - this.vmin) / (max.y - min.y), (-min.y * (this.vmax - this.vmin) / (max.y - min.y)) + this.vmin],
-                   [0,  0,  1]];
+      //definindo os limites da janela em 20% dos máximos e mínimos encontrados no objeto
+      max.x = max.x + 0.2 * Math.abs(max.x - min.x);
+      min.x = min.x - 0.2 * Math.abs(max.x - min.x);
+      max.y = max.y + 0.2 * Math.abs(max.y - min.y);
+      min.y = min.y - 0.2 * Math.abs(max.y - min.y);
 
-        return this.multiplicacaoMatriz(mvp, m);
+      //calculando o aspect ratio
+      var rw = (max.x - min.x) / (max.y - min.y);
+      var rv = (this.umax - this.umin) / (this.vmax - this.vmin);
+      var vmaxnovo, umaxnovo;
+      var matrizViewPort;
+      if(rw > rv){
+        vmaxnovo = (this.umax - this.umin)/rw + this.vmin;
+        var sx = (this.umax - this.umin) / (max.x - min.x);
+        var sy = (vmaxnovo - this.vmin) / (max.y - min.y);
+        matrizViewPort = [
+          [sx, 0, -min.x * sx + this.umin],
+          [0, sy, -min.y * sy - this.vmin + (this.vmax-vmaxnovo)/2],
+          [0,  0,  1]
+        ];
+      } else{
+        umaxnovo = rw*(this.vmax - this.vmin) + this.umin;
+        var sx = (umaxnovo - this.umin) / (max.x - min.x);
+        var sy = (this.vmax - this.vmin) / (max.y - min.y);
+        matrizViewPort = [
+          [sx, 0, (-min.x * sx) - this.umin + (this.umax-umaxnovo)/2],
+          [0, sy, -min.y * sy + this.vmin],
+          [0,  0,  1]
+        ];
+      }
+
+      return this.multiplicacaoMatriz(matrizViewPort, m);
     }
 
     // preenche os vertices digitados
@@ -221,7 +248,7 @@ function Projecao(){
 
     //Desenha pontos
     this.plotaPontos = function(m){
-        plot.clear();
+        plot.limpaProjecao();
         for (var i = 0; i < this.numeroFaces; i++){
             var visivel = true;
             if (this.facesOcultas == true)
@@ -235,24 +262,40 @@ function Projecao(){
                     if (j == 0){
                         var vFinal = parseInt(this.faces[i][this.faces[i].length -1].vt);
                         pFinal = {x: m[0][vFinal-1], y: m[1][vFinal-1]};
-                        plot.draw_line(p1, pFinal);
+                        plot.desenha(p1, pFinal);
                     }
-                    plot.draw_line(p1, p2);
+                    plot.desenha(p1, p2);
                 }
         }
     }
 
     //verifica se face está visivel
     this.visivel = function(face){
-        var n = this.getNormal(face[1].vt[1], face[0].vt[1], face[2].vt[1]);
-        var vx = this.pontoDeVista.x;
-        var vy = this.pontoDeVista.y;
-        var vz = this.pontoDeVista.z;
-        var point = face[1].vt[1];
-        var d = [point.x - vx, point.y - vy, point.z - vz];
-        var escalar = n[0]*d[0] + n[1]*d[1] + n[2]*d[2];
-        if (escalar < 0)
-            return false;
-        return true;
+      var n = this.getNormal(face[1].vt[1], face[0].vt[1], face[2].vt[1]); //encontra o vetor normal da face
+      var p = face[0].vt[1];
+      var d = [p.x - this.pontoDeVista.x, p.y - this.pontoDeVista.y, p.z - this.pontoDeVista.z];
+      var escalar = n[0]*d[0] + n[1]*d[1] + n[2]*d[2];
+      if (escalar < 0){ //se o escalar for menor que 0, indica que a face deve estar oculta
+        return false;
+      }
+      return true;
     }
+}
+
+//Funcao que utiliza a biblioteca JSGL, realizando desenho de retas no ambiente de visualização
+function Plotar(){
+  var painel = new jsgl.Panel(document.getElementById("viewport"));
+  this.desenha = function(p1, p2){
+      var linha = painel.createLine();
+      linha.setStartPointXY(p1.x, p1.y);
+      linha.setEndPointXY(p2.x, p2.y);
+      with(linha.getStroke()){
+        setColor('rgb(255,255,255)');
+        setWeight(1);
+      }
+      painel.addElement(linha);
+  }
+  this.limpaProjecao = function(){
+    painel.clear();
+  }
 }

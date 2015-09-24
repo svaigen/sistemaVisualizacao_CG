@@ -100,26 +100,26 @@ function enviaCoordenadasVerticesCubo(){
     document.getElementById("vertices10").value = 5;
     document.getElementById("vertices11").value = 0;
     document.getElementById("vertices12").value = 0;
-    document.getElementById("vertices13").value = 5;
+    document.getElementById("vertices13").value = 0;
     document.getElementById("vertices14").value = -5;
-    document.getElementById("vertices15").value = 0;
+    document.getElementById("vertices15").value = 5;
     document.getElementById("vertices16").value = 0;
     document.getElementById("vertices17").value = -5;
     document.getElementById("vertices18").value = 5;
-    document.getElementById("vertices19").value = 0;
+    document.getElementById("vertices19").value = 5;
     document.getElementById("vertices20").value = -5;
-    document.getElementById("vertices21").value = 5;
+    document.getElementById("vertices21").value = 0;
     document.getElementById("vertices22").value = 5;
     document.getElementById("vertices23").value = -5;
 }
 
 function enviaEspecificacaoFacesCubo(){
-    document.getElementById("faces0").value = "6 7 8 5";
-    document.getElementById("faces1").value = "7 2 3 8";
-    document.getElementById("faces2").value = "2 1 4 3";
-    document.getElementById("faces3").value = "6 5 4 1";
-    document.getElementById("faces4").value = "2 7 6 1";
-    document.getElementById("faces5").value = "8 3 4 5";
+    document.getElementById("faces0").value = "1 2 3 4";
+    document.getElementById("faces1").value = "2 6 7 3";
+    document.getElementById("faces2").value = "5 8 7 6";
+    document.getElementById("faces3").value = "1 4 8 5";
+    document.getElementById("faces4").value = "3 7 8 4";
+    document.getElementById("faces5").value = "1 5 6 2";
 }
 
 function enviaPontoDeVistaCubo(){
