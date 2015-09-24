@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sistema de visualização</title>
+
+  <!-- Bootstrap -->
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/style.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+      <nav class="navbar navbar-default navbar-static-top">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed buttonMobile" data-toggle="collapse" data-target="#nav1">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+          </div>
+
+          <div class="collapse navbar-collapse" id="nav1">
+            <ul class="nav navbar-nav">
+              <li><a href="index.html">Início</a></li>
+              <li class="active"><a href="ajuda.html">Ajuda</a></li>
+              <li><a href="sobre.html">Sobre</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <div class="container">
+      <div class="row well">
+        <div class=" col-sm-12">
+          <h1>Ajuda para os usuários</h1>
+          <p>Nessa seção, você vai encontrar:</p>
+          <ul>
+            <li><a href="#componentes">Componentes do sistema de visualização</a></li>
+            <li><a href="#obj_existente">Projetando um objeto já existente</a></li>
+            <li><a href="#obj_novo">Criando um novo objeto para visualização</a></li>
+            <li><a href="#ponto_vista">Alterando o ponto de vista</a></li>
+            <li><a href="#botao_proj">Alterando demais propriedades</a></li>
+          </ul>
+          <hr>
+          <h3><a name="componentes">Componentes do sistema de visualização</a></h3>
+          <p>
+            Primeiramente, vamos familiarizá-lo com o sistema. Pode-se afirmar que ele se subdivide em 3 áreas distintas:
+            <ol>
+              <li>Definições de Visualização</li>
+              <li>Ambiente de Visualização e definições de projeção</li>
+              <li>Definições do Objeto</li>
+            </ol>
+            Observe a figura a seguir:<br/>
+            <img class="imgExp img-thumbnail" src="../img/p1.png" />
+          </p>
+          <p>
+            A primeira faz referencia às coordenadas do plano de projeção e do ponto de vista do observador. A segunda apresenta a área de
+            visualização da projeção (em preto) e permite a seleção do tipo de projeção (cônica ou cilíndrica), além de permitir a opção de
+            não exibir as faces ocultas. A terceira área permite projetar um objeto já pré-existente no sistema, ou então, definir um novo,
+            por meio da especificação dos vértices e das faces.
+          </p>
+          <hr>
+          <h3><a name="obj_existente">Projetando um objeto já existente</a></h3>
+          <p>
+            O sistema inclui três objetos pré-determinados, a saber:
+            <ul>
+              <li>Pirâmide de base quadrada;</li>
+              <li>Cubo;</li>
+              <li>Casa de base retangular com uma porta;</li>
+            </ul>
+            Para selecionar um objeto pré-determinado, faça:
+            <ol>
+              <li>Na área de "Definições do Objeto", clique em "Usar objeto já existente";</li>
+              <li>Clique na caixa de seleção e escolha um dos objetos;</li>
+            </ol>
+            Veja os passos pela figura a seguir.<br/>
+            <img class="imgExp img-thumbnail" src="../img/p2.png" /><br/>
+            Ao selecionar um objeto, os demais campos serão automaticamente preenchidos, conforme mostra a figura a seguir.<br/>
+            <img class="imgExp img-thumbnail" src="../img/p3.png" />
+          </p>
+          <hr>
+          <h3><a name="obj_novo">Criando um novo objeto para visualização</a></h3>
+          <p>
+            Para se criar um novo objeto, deverão ser informados os seguinte itens:
+            <ol>
+              <li><strong>Coordenadas do plano de projeção</strong>: Definir as coordenadas de 3 pontos do plano;</li>
+              <li><strong>Coordenadas do ponto de vista</strong>: Definir as coordenadas do ponto de vista do usuário;</li>
+              <li><strong>Tipo de projeção</strong>: Definir se a projeção será cônica ou cilíndrica (por padrão, a projeção é cônica);</li>
+              <li><strong>Esconder faces ocultas</strong>: Definir se a projeção exibirá de modo "wireframe" ou por faces ocultas (por padrão, as faces ocultas são exibidas);</li>
+              <li><strong>Especificação de vértices e faces do objeto</strong>: Especificar todas as coordenadas dos vértices e quais estão contidos em cada face;</li>
+            </ol>
+            A imagem a seguir exibe onde tais itens podem ser informados.<br/>
+            <img class="imgExp img-thumbnail" src="../img/p4.png" /> <br/>
+            Com relação ao item 5, ao se clicar no botão "Especificar Novo Objeto", primeiramente pede-se para que se informe a quantidade de vértices e
+            a quantidade de faces do objeto. Utilize as setas do campo de preenchimento para informar o valor. Especificado esses dois itens, abaixo desse campo aparecerão duas tabelas:
+            uma para preenchimento das coordenadas dos vértices e uma para informar quais vértices fazem parte da determinada face. <strong>Atenção!</strong> É muito importante
+            que para especificação dos vértices em determinada face, siga-se a <strong>regra da mão direita!</strong> Dessa maneira, é garantido que não haverá inversões na projeção do objeto.<br/>
+            Na especificação dos vértices, separe-os por um espaço simples. Ao terminar, pressione o botão "Projetar". O resultado final será a projeção no ambiente de visualização, conforme a imagem a seguir.<br/>
+            <img class="imgExp img-thumbnail" src="../img/p5.png" /> <br/>
+          </p>
+          <hr>
+          <h3><a name="ponto_vista">Alterando o ponto de vista</a></h3>
+          <p>
+            É possível "movimentar" o ponto de vista de visualização por meio das teclas W, A, S, D. Eis suas funções:
+            <ul>
+              <li>W: Aumenta em 1 unidade o eixo Y;</li>
+              <li>S: Diminui em 1 unidade o eixo Y;</li>
+              <li>D: Aumenta em 1 unidade o eixo X;</li>
+              <li>A: Diminui em 1 unidade o eixo X;</li>
+            </ul>
+            Ao digitar uma dessas teclas, a projeção já se altera automaticamente, não sendo necessário clicar no botão "Projetar" novamente.
+          </p>
+          <hr>
+          <h3><a name="botao_proj">Alterando demais propriedades</a></h3>
+          <p>
+            Caso queira alterar outras propriedades, como por exemplo, as coordenadas do plano de projeção, ou modificar a projeção de cônica para cilíndrica, deve-se sempre, após a alteração, clicar no botão "Projetar" para que a alteração surta efeito!
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <script src="../js/jquery.min.js"></script>
+      <script src="../js/bootstrap.min.js"></script>
+    </footer>
+  </body>
+</html>

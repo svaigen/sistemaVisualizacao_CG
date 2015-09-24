@@ -19,3 +19,9 @@
     background-color: #000;
     margin: auto;
 }
+
+.imgExp{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  max-width: 700px;
+}
