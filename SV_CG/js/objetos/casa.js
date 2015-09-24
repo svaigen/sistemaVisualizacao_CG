@@ -23,15 +23,19 @@ function enviaCoordenadasVerticesCasa(){
     document.getElementById("vertices0").value = 0;
     document.getElementById("vertices1").value = 0;
     document.getElementById("vertices2").value = 0;
+
     document.getElementById("vertices3").value = 10;
     document.getElementById("vertices4").value = 0;
     document.getElementById("vertices5").value = 0;
+
     document.getElementById("vertices6").value = 10;
-    document.getElementById("vertices7").value = 0;
-    document.getElementById("vertices8").value = 15;
+    document.getElementById("vertices7").value = 10;
+    document.getElementById("vertices8").value = 0;
+
     document.getElementById("vertices9").value = 0;
-    document.getElementById("vertices10").value = 0;
-    document.getElementById("vertices11").value = 15;
+    document.getElementById("vertices10").value = 10;
+    document.getElementById("vertices11").value = 0;
+
     document.getElementById("vertices12").value = 10;
     document.getElementById("vertices13").value = 8;
     document.getElementById("vertices14").value = 15;
