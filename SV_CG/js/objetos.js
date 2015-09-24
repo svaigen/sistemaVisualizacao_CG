@@ -15,9 +15,9 @@ function piramide(){
     enviaPontoDeVistaPiramide();
     enviaPlanoDeProjecaoPiramide();
 
-    //enviando os dados gerados para as demais funcoes de projecao
-    var dados = document.getElementById("proj");
-    getDados(dados);
+    //enviando os form gerados para as demais funcoes de projecao
+    var form = document.getElementById("formInput");
+    getDados(form);
 }
 
 function enviaCoordenadasVerticesPiramide(){
@@ -81,9 +81,9 @@ function cubo(){
     enviaPontoDeVistaCubo();
     enviaPlanoDeProjecaoCubo();
 
-    //enviando os dados gerados para as demais funcoes de projecao
-    var dados = document.getElementById("proj");
-    getDados(dados);
+    //enviando os form gerados para as demais funcoes de projecao
+    var form = document.getElementById("formInput");
+    getDados(form);
 }
 
 function enviaCoordenadasVerticesCubo(){
@@ -157,9 +157,9 @@ function casa(){
     enviaPontoDeVistaCasa();
     enviaPlanoDeProjecaoCasa();
 
-    //enviando os dados gerados para as demais funcoes de projecao
-    var dados = document.getElementById("proj");
-    getDados(dados);
+    //enviando os form gerados para as demais funcoes de projecao
+    var form = document.getElementById("formInput");
+    getDados(form);
 }
 function enviaCoordenadasVerticesCasa(){
     document.getElementById("vertices0").value = 0;

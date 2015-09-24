@@ -1,9 +1,9 @@
-function getDados(dados){
+function getDados(form){
     faceOculta();
-    getPontosPlano(dados);
-    getPontoDeVista(dados);
-    getVertices(dados);
-    getFaces(dados);
+    getPontosPlano(form);
+    getPontoDeVista(form);
+    getVertices(form);
+    getFaces(form);
    if(validar()){
     projecao.projeta();
   }else{
@@ -17,39 +17,39 @@ function faceOculta(){
 }
 
 //pega pontos do plano
-function getPontosPlano(dados){
-    projecao.planoProjecao.p1.x = parseInt(dados.pp_p1_x.value);
-    projecao.planoProjecao.p1.y = parseInt(dados.pp_p1_y.value);
-    projecao.planoProjecao.p1.z = parseInt(dados.pp_p1_z.value);
+function getPontosPlano(form){
+    projecao.planoProjecao.p1.x = parseInt(form.pp_p1_x.value);
+    projecao.planoProjecao.p1.y = parseInt(form.pp_p1_y.value);
+    projecao.planoProjecao.p1.z = parseInt(form.pp_p1_z.value);
 
-    projecao.planoProjecao.p2.x = parseInt(dados.pp_p2_x.value);
-    projecao.planoProjecao.p2.y = parseInt(dados.pp_p2_y.value);
-    projecao.planoProjecao.p2.z = parseInt(dados.pp_p2_z.value);
+    projecao.planoProjecao.p2.x = parseInt(form.pp_p2_x.value);
+    projecao.planoProjecao.p2.y = parseInt(form.pp_p2_y.value);
+    projecao.planoProjecao.p2.z = parseInt(form.pp_p2_z.value);
 
-    projecao.planoProjecao.p3.x = parseInt(dados.pp_p3_x.value);
-    projecao.planoProjecao.p3.y = parseInt(dados.pp_p3_y.value);
-    projecao.planoProjecao.p3.z = parseInt(dados.pp_p3_z.value);
+    projecao.planoProjecao.p3.x = parseInt(form.pp_p3_x.value);
+    projecao.planoProjecao.p3.y = parseInt(form.pp_p3_y.value);
+    projecao.planoProjecao.p3.z = parseInt(form.pp_p3_z.value);
 }
 
 //pega pontos de vista
-function getPontoDeVista(dados){
-    projecao.pontoDeVista.x = parseInt(dados.pvx.value);
-    projecao.pontoDeVista.y = parseInt(dados.pvy.value);
-    projecao.pontoDeVista.z = parseInt(dados.pvz.value);
+function getPontoDeVista(form){
+    projecao.pontoDeVista.x = parseInt(form.pvx.value);
+    projecao.pontoDeVista.y = parseInt(form.pvy.value);
+    projecao.pontoDeVista.z = parseInt(form.pvz.value);
 }
 
 //pega Vertices
-function getVertices(dados){
+function getVertices(form){
     var x,y,z,contador = 0;
     var v = projecao.numeroVertices;
     projecao.verticesCoordenadas = [];
     for (var i = 0; i < v*3; i++){
         if (i % 3 == 0){
-            x = dados.elements["nv" + i].value;
+            x = form.elements["nv" + i].value;
         } else if (i % 3 == 1){
-            y = dados.elements["nv" + i].value;
+            y = form.elements["nv" + i].value;
         } else if (i % 3 == 2){
-            z = dados.elements["nv" + i].value;
+            z = form.elements["nv" + i].value;
         }
         contador++;
         if (contador == 3){
@@ -60,11 +60,11 @@ function getVertices(dados){
 }
 
 //pega Faces
-function getFaces(dados){
+function getFaces(form){
     var n_faces = projecao.numeroFaces;
     projecao.faces = [];
     for (var i = 0; i < n_faces; i++){
-        var s = dados.elements["ns" + i].value.split(" ");
+        var s = form.elements["ns" + i].value.split(" ");
         var f = [];
         for (var j = 0; j < s.length; j++){
             var vt = parseInt(s[j]);
