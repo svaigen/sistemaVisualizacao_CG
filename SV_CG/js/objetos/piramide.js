@@ -1,4 +1,4 @@
-function prisma(){
+function piramide(){
     //enviando os valores dos vertices
     var vertices = document.getElementById("vertices");
     vertices.value = 5;
@@ -16,7 +16,7 @@ function prisma(){
     enviaPlanoDeProjecaoPiramide();
 
     //enviando os dados gerados para as demais funcoes de projecao
-    var dados = document.getElementById("formInput");
+    var dados = document.getElementById("proj");
     getDados(dados);
 }
 

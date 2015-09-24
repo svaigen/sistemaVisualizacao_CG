@@ -16,7 +16,7 @@ function casa(){
     enviaPlanoDeProjecaoCasa();
 
     //enviando os dados gerados para as demais funcoes de projecao
-    var dados = document.getElementById("formInput");
+    var dados = document.getElementById("proj");
     getDados(dados);
 }
 function enviaCoordenadasVerticesCasa(){
@@ -68,7 +68,7 @@ function enviaPontoDeVistaCasa(){
     document.getElementById("pv-z").value = -10;
 }
 
-function enviaPlanoDeProjecaoCasaCasa(){
+function enviaPlanoDeProjecaoCasa(){
     document.getElementById("pp_x1").value = 1;
     document.getElementById("pp_y1").value = 0;
     document.getElementById("pp_z1").value = 0;

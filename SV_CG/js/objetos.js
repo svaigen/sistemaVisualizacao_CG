@@ -1,167 +1,223 @@
-function getDados(dados){
-    faceOculta();
-    getPontosPlano(dados);
-    getPontoDeVista(dados);
-    getVertices(dados);
-    getFaces(dados);
-   if(validar()){
-    projecao.projeta();
-  }else{
-    alert('Preencha todos os campos!');
-  }
+function piramide(){
+    //enviando os valores dos vertices
+    var vertices = document.getElementById("vertices");
+    vertices.value = 5;
+    getNumeroVertice();
+    enviaCoordenadasVerticesPiramide();
+
+    //enviando os valores das faces
+    var faces = document.getElementById("faces");
+    faces.value = 5;
+    getNumeroFace();
+    enviaEspecificacaoFacesPiramide();
+
+    //enviando os valores de ponto de vista e plano de projecao
+    enviaPontoDeVistaPiramide();
+    enviaPlanoDeProjecaoPiramide();
+
+    //enviando os dados gerados para as demais funcoes de projecao
+    var dados = document.getElementById("proj");
+    getDados(dados);
 }
 
-//verifica Face Oculta
-function faceOculta(){
-    projecao.facesOcultas = document.getElementById("fo").checked;
+function enviaCoordenadasVerticesPiramide(){
+    document.getElementById("vertices0").value = 0;
+    document.getElementById("vertices1").value = 0;
+    document.getElementById("vertices2").value = 0;
+    document.getElementById("vertices3").value = 6;
+    document.getElementById("vertices4").value = 0;
+    document.getElementById("vertices5").value = 0;
+    document.getElementById("vertices6").value = 0;
+    document.getElementById("vertices7").value = 0;
+    document.getElementById("vertices8").value = -6;
+    document.getElementById("vertices9").value = 6;
+    document.getElementById("vertices10").value = 0;
+    document.getElementById("vertices11").value = -6;
+    document.getElementById("vertices12").value = 3;
+    document.getElementById("vertices13").value = 6;
+    document.getElementById("vertices14").value = -3;
 }
 
-//pega pontos do plano
-function getPontosPlano(dados){
-    projecao.planoProjecao.p1.x = parseInt(dados.pp_p1_x.value);
-    projecao.planoProjecao.p1.y = parseInt(dados.pp_p1_y.value);
-    projecao.planoProjecao.p1.z = parseInt(dados.pp_p1_z.value);
-
-    projecao.planoProjecao.p2.x = parseInt(dados.pp_p2_x.value);
-    projecao.planoProjecao.p2.y = parseInt(dados.pp_p2_y.value);
-    projecao.planoProjecao.p2.z = parseInt(dados.pp_p2_z.value);
-
-    projecao.planoProjecao.p3.x = parseInt(dados.pp_p3_x.value);
-    projecao.planoProjecao.p3.y = parseInt(dados.pp_p3_y.value);
-    projecao.planoProjecao.p3.z = parseInt(dados.pp_p3_z.value);
+function enviaEspecificacaoFacesPiramide(){
+    document.getElementById("faces0").value = "1 3 4 2";
+    document.getElementById("faces1").value = "1 2 5";
+    document.getElementById("faces2").value = "2 4 5";
+    document.getElementById("faces3").value = "4 3 5";
+    document.getElementById("faces4").value = "1 5 3";
 }
 
-//pega pontos de vista
-function getPontoDeVista(dados){
-    projecao.pontoDeVista.x = parseInt(dados.pvx.value);
-    projecao.pontoDeVista.y = parseInt(dados.pvy.value);
-    projecao.pontoDeVista.z = parseInt(dados.pvz.value);
+function enviaPontoDeVistaPiramide(){
+    document.getElementById("pv-x").value = 3;
+    document.getElementById("pv-y").value = 0;
+    document.getElementById("pv-z").value = 10;
 }
 
-//pega Vertices
-function getVertices(dados){
-    var x,y,z,contador = 0;
-    var v = projecao.numeroVertices;
-    projecao.verticesCoordenadas = [];
-    for (var i = 0; i < v*3; i++){
-        if (i % 3 == 0){
-            x = dados.elements["nv" + i].value;
-        } else if (i % 3 == 1){
-            y = dados.elements["nv" + i].value;
-        } else if (i % 3 == 2){
-            z = dados.elements["nv" + i].value;
-        }
-        contador++;
-        if (contador == 3){
-            contador = 0;
-            projecao.adicionaVertice(parseInt(x), parseInt(y), parseInt(z));
-        }
-    }
+function enviaPlanoDeProjecaoPiramide(){
+    document.getElementById("pp_x1").value = 0;
+    document.getElementById("pp_y1").value = 0;
+    document.getElementById("pp_z1").value = 0;
+    document.getElementById("pp_x2").value = 1;
+    document.getElementById("pp_y2").value = 0;
+    document.getElementById("pp_z2").value = 0;
+    document.getElementById("pp_x3").value = 0;
+    document.getElementById("pp_y3").value = 1;
+    document.getElementById("pp_z3").value = 0;
 }
 
-//pega Faces
-function getFaces(dados){
-    var n_faces = projecao.numeroFaces;
-    projecao.faces = [];
-    for (var i = 0; i < n_faces; i++){
-        var s = dados.elements["ns" + i].value.split(" ");
-        var f = [];
-        for (var j = 0; j < s.length; j++){
-            var vt = parseInt(s[j]);
-            f.push({vt: [vt, projecao.verticesCoordenadas[vt - 1]]});
-        }
-        projecao.faces.push(f);
-    }
+function cubo(){
+    //enviando os valores dos vertices
+    var vertices = document.getElementById("vertices");
+    vertices.value = 8;
+    getNumeroVertice();
+    enviaCoordenadasVerticesCubo();
+
+    //enviando os valores das faces
+    var faces = document.getElementById("faces");
+    faces.value = 6;
+    getNumeroFace();
+    enviaEspecificacaoFacesCubo();
+
+    //enviando os valores de ponto de vista e plano de projecao
+    enviaPontoDeVistaCubo();
+    enviaPlanoDeProjecaoCubo();
+
+    //enviando os dados gerados para as demais funcoes de projecao
+    var dados = document.getElementById("proj");
+    getDados(dados);
 }
 
-// Pega Tipo de Projecao
-function getDefinicao(valor){
-    projecao.tipoProjecao = valor;
+function enviaCoordenadasVerticesCubo(){
+    document.getElementById("vertices0").value = 0;
+    document.getElementById("vertices1").value = 0;
+    document.getElementById("vertices2").value = 0;
+    document.getElementById("vertices3").value = 5;
+    document.getElementById("vertices4").value = 0;
+    document.getElementById("vertices5").value = 0;
+    document.getElementById("vertices6").value = 5;
+    document.getElementById("vertices7").value = 5;
+    document.getElementById("vertices8").value = 0;
+    document.getElementById("vertices9").value = 0;
+    document.getElementById("vertices10").value = 5;
+    document.getElementById("vertices11").value = 0;
+    document.getElementById("vertices12").value = 0;
+    document.getElementById("vertices13").value = 5;
+    document.getElementById("vertices14").value = -5;
+    document.getElementById("vertices15").value = 0;
+    document.getElementById("vertices16").value = 0;
+    document.getElementById("vertices17").value = -5;
+    document.getElementById("vertices18").value = 5;
+    document.getElementById("vertices19").value = 0;
+    document.getElementById("vertices20").value = -5;
+    document.getElementById("vertices21").value = 5;
+    document.getElementById("vertices22").value = 5;
+    document.getElementById("vertices23").value = -5;
 }
 
-//Pega Vertices
-function getNumeroVertice(){
-    var v = parseInt(document.getElementById("vertices").value);
-    projecao.numeroVertices = v;
-    incluiInput(v, 3, "vertices", "nv", "V", "campo-preenchimento", "number", "0","table-vertices");
-    document.getElementById("desc-vertices").className -="hide";
+function enviaEspecificacaoFacesCubo(){
+    document.getElementById("faces0").value = "6 7 8 5";
+    document.getElementById("faces1").value = "7 2 3 8";
+    document.getElementById("faces2").value = "2 1 4 3";
+    document.getElementById("faces3").value = "6 5 4 1";
+    document.getElementById("faces4").value = "2 7 6 1";
+    document.getElementById("faces5").value = "8 3 4 5";
 }
 
-//Pega Faces
-function getNumeroFace(){
-    var f = parseInt(document.getElementById("faces").value);
-    projecao.numeroFaces = f;
-    incluiInput(f, 1, "faces", "ns", "F", "", "text", "","table-faces");
-    document.getElementById("desc-faces").className -="hide"
+function enviaPontoDeVistaCubo(){
+    document.getElementById("pv-x").value = 0;
+    document.getElementById("pv-y").value = 0;
+    document.getElementById("pv-z").value = 10;
 }
 
-//Adiciona na tabela os vertices e faces
-function incluiInput(qtd_linhas, qtd_colunas, id_objeto, nome_objeto,
-        tipo, classe, tipo_objeto, valor,tabela){
-
-          var t = document.getElementById(tabela);
-          var numLinhas = t.rows.length;
-          var linhas = numLinhas;
-
-          //remover linhas antigas, caso existam
-          if(classe == "V"){
-            for(var i = linhas-1; i >= 2; i--){
-              t.deleteRow(i);
-              numLinhas--;
-            }
-          }else{
-            for(var i = linhas; i > 1; i--){
-              t.deleteRow(i-1);
-              numLinhas--;
-            }
-          }
-            for (var i = 1; i <= qtd_linhas; i++){
-                var novaLinha = t.insertRow(numLinhas++);
-                var cel0 = novaLinha.insertCell(0);
-                cel0.innerHTML = i;
-                var id = tipo + (i-1);
-                for (var j = 1; j <= qtd_colunas; j++){
-                    var cel = novaLinha.insertCell(j);
-                    var id = (i-1)*qtd_colunas + j-1;
-                    var input = geraInput(id_objeto + id, nome_objeto + id,
-                            classe, tipo_objeto, valor);
-                    cel.appendChild(input);
-                }
-            }
-        }
-
-//cria input para linha da tabela
-function geraInput(id, nome, classe, tipo, valor){
-    var input = document.createElement("input");
-    input.type = tipo;
-    input.id = id;
-    input.value = valor;
-    input.className = classe;
-    input.name = nome;
-    return input;
+function enviaPlanoDeProjecaoCubo(){
+    document.getElementById("pp_x1").value = 0;
+    document.getElementById("pp_y1").value = 0;
+    document.getElementById("pp_z1").value = 0;
+    document.getElementById("pp_x2").value = 1;
+    document.getElementById("pp_y2").value = 0;
+    document.getElementById("pp_z2").value = 0;
+    document.getElementById("pp_x3").value = 0;
+    document.getElementById("pp_y3").value = 1;
+    document.getElementById("pp_z3").value = 0;
 }
 
-//Atualiza numero de Vertices e Faces com o Enter
-function geraVerticesFaces(e, tipo){
-    if (e.keyCode == 13){
-        if (tipo == "numeroVertices")
-            getNumeroVertice();
-        else if (tipo == "numeroFaces")
-            getNumeroFace();
-    }
+function casa(){
+    //enviando os valores dos vertices
+    var vertices = document.getElementById("vertices");
+    vertices.value = 10;
+    getNumeroVertice();
+    enviaCoordenadasVerticesCasa();
+
+    //enviando os valores das faces
+    var faces = document.getElementById("faces");
+    faces.value = 7;
+    getNumeroFace();
+    enviaEspecificacaoFacesCasa();
+
+    //enviando os valores de ponto de vista e plano de projecao
+    enviaPontoDeVistaCasa();
+    enviaPlanoDeProjecaoCasa();
+
+    //enviando os dados gerados para as demais funcoes de projecao
+    var dados = document.getElementById("proj");
+    getDados(dados);
+}
+function enviaCoordenadasVerticesCasa(){
+    document.getElementById("vertices0").value = 0;
+    document.getElementById("vertices1").value = 0;
+    document.getElementById("vertices2").value = 0;
+    document.getElementById("vertices3").value = 10;
+    document.getElementById("vertices4").value = 0;
+    document.getElementById("vertices5").value = 0;
+    document.getElementById("vertices6").value = 10;
+    document.getElementById("vertices7").value = 0;
+    document.getElementById("vertices8").value = 15;
+    document.getElementById("vertices9").value = 0;
+    document.getElementById("vertices10").value = 0;
+    document.getElementById("vertices11").value = 15;
+    document.getElementById("vertices12").value = 10;
+    document.getElementById("vertices13").value = 8;
+    document.getElementById("vertices14").value = 15;
+    document.getElementById("vertices15").value = 0;
+    document.getElementById("vertices16").value = 8;
+    document.getElementById("vertices17").value = 15;
+    document.getElementById("vertices18").value = 10;
+    document.getElementById("vertices19").value = 8;
+    document.getElementById("vertices20").value = 0;
+    document.getElementById("vertices21").value = 0;
+    document.getElementById("vertices22").value = 8;
+    document.getElementById("vertices23").value = 0;
+    document.getElementById("vertices24").value = 5;
+    document.getElementById("vertices25").value = 13;
+    document.getElementById("vertices26").value = 15;
+    document.getElementById("vertices27").value = 5;
+    document.getElementById("vertices28").value = 13;
+    document.getElementById("vertices29").value = 0;
 }
 
-//Ativa mudança nos pontos de vista x e y
-document.onkeydown = function(e){
-    if (e.keyCode == 87) // tecla w
-        projecao.pontoDeVista.y += 1;
-    else if (e.keyCode == 83) // tecla s
-        projecao.pontoDeVista.y -= 1;
-    else if (e.keyCode == 65) // tecla a
-        projecao.pontoDeVista.x -= 1;
-    else if (e.keyCode == 68) // tecla d
-        projecao.pontoDeVista.x += 1;
-    document.getElementById("pv-x").value = projecao.pontoDeVista.x;
-    document.getElementById("pv-y").value = projecao.pontoDeVista.y;
-    projecao.projeta();
+function enviaEspecificacaoFacesCasa(){
+    document.getElementById("faces0").value = "4 3 5 9 6";
+    document.getElementById("faces1").value = "3 2 7 5";
+    document.getElementById("faces2").value = "8 10 7 2 1";
+    document.getElementById("faces3").value = "6 8 1 4 6";
+    document.getElementById("faces4").value = "4 1 2 3";
+    document.getElementById("faces5").value = "9 10 8 6";
+    document.getElementById("faces6").value = "5 7 10 9 5";
+}
+
+function enviaPontoDeVistaCasa(){
+    document.getElementById("pv-x").value = 0;
+    document.getElementById("pv-y").value = 0;
+    document.getElementById("pv-z").value = -10;
+}
+
+function enviaPlanoDeProjecaoCasa(){
+    document.getElementById("pp_x1").value = 1;
+    document.getElementById("pp_y1").value = 0;
+    document.getElementById("pp_z1").value = 0;
+    document.getElementById("pp_x2").value = 0;
+    document.getElementById("pp_y2").value = 0;
+    document.getElementById("pp_z2").value = 0;
+    document.getElementById("pp_x3").value = 0;
+    document.getElementById("pp_y3").value = 1;
+    document.getElementById("pp_z3").value = 0;
 }

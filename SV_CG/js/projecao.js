@@ -5,10 +5,10 @@ function objeto(){
   var obj = document.getElementById("objetos").value;
 
   if(obj == 1){
-    cubo();
+    piramide();
   }
   if(obj == 2){
-    prisma();
+    cubo();
   }
   if(obj == 3){
     casa();
