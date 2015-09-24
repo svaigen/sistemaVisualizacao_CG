@@ -151,17 +151,23 @@ function geraVerticesFaces(e, tipo){
     }
 }
 
-//Ativa mudança nos pontos de vista x e y
-document.onkeydown = function(e){
-    if (e.keyCode == 87) // tecla w
-        projecao.pontoDeVista.y += 1;
-    else if (e.keyCode == 83) // tecla s
-        projecao.pontoDeVista.y -= 1;
-    else if (e.keyCode == 65) // tecla a
-        projecao.pontoDeVista.x -= 1;
-    else if (e.keyCode == 68) // tecla d
-        projecao.pontoDeVista.x += 1;
+//Ativa mudança nos pontos de vista x, y e z
+document.onkeydown = function(tecla){
+    if (tecla.keyCode == 87){ // tecla w
+      projecao.pontoDeVista.y += 1;
+    } else if (tecla.keyCode == 83){ // tecla s
+      projecao.pontoDeVista.y -= 1;
+    } else if (tecla.keyCode == 65){ // tecla a
+      projecao.pontoDeVista.x -= 1;
+    } else if (tecla.keyCode == 68){ // tecla d
+      projecao.pontoDeVista.x += 1;
+    } else if(tecla.keyCode == 82){ //tecla r
+      projecao.pontoDeVista.z += 1;
+    } else if(tecla.keyCode == 70){ //tecla f
+      projecao.pontoDeVista.z -= 1;
+    }
     document.getElementById("pv-x").value = projecao.pontoDeVista.x;
     document.getElementById("pv-y").value = projecao.pontoDeVista.y;
+    document.getElementById("pv-z").value = projecao.pontoDeVista.z;
     projecao.projeta();
 }
